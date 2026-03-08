@@ -1,13 +1,15 @@
-
 // This file sets up the Express server, connects to the MongoDB database, and defines the API routes.
-
-// 
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
 // Import the database connection function
 const ConnectToMongoDB = require("./config/Database");
+
+// Import route handlers for authentication, favorites, and history
+const AuthRoutes = require("./routes/Auth.routes");
+const FavoriteRoutes = require("./routes/favoriteRoutes");
+const HistoryRoutes = require("./routes/historyRoutes");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -25,6 +27,8 @@ App.use(cors());
 ConnectToMongoDB();
 
 // Define API routes
-App.use("/api", require("./routes/Auth.routes"));
+App.use("/api", AuthRoutes);
+App.use("/api/favorites", FavoriteRoutes);
+App.use("/api/history", HistoryRoutes);
 
 module.exports = App;
