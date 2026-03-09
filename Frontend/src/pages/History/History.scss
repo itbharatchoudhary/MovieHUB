@@ -1,0 +1,75 @@
+.history-page {
+  padding: 40px;
+  min-height: 100vh;
+  background: #020617;
+}
+
+/* Header */
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 40px;
+
+  h1 {
+    font-size: 32px;
+    color: white;
+  }
+
+  p {
+    color: #9ca3af;
+    margin-top: 5px;
+  }
+}
+
+/* Clear Button */
+
+.clear-btn {
+  background: #ef4444;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.clear-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* Grid Layout */
+
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 25px;
+}
+
+/* Empty State */
+
+.empty-history {
+  height: 50vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  h2 {
+    color: white;
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #9ca3af;
+    font-size: 16px;
+  }
+}

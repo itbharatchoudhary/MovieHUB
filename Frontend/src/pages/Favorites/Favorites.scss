@@ -1,0 +1,50 @@
+.favorites-page {
+  padding: 40px;
+  min-height: 100vh;
+  background: #020617;
+}
+
+.favorites-header {
+  margin-bottom: 40px;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+  }
+
+  p {
+    color: #9ca3af;
+    margin-top: 5px;
+  }
+}
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 25px;
+}
+
+/* Empty State */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 50vh;
+
+  text-align: center;
+  color: #9ca3af;
+
+  h2 {
+    font-size: 26px;
+    color: white;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}

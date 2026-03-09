@@ -1,0 +1,233 @@
+@use "../../styles/variables" as *;
+
+.movie-row {
+  margin: 50px 0;
+  position: relative;
+  animation: fadeIn 0.6s ease;
+
+  h2 {
+    margin-left: 50px;
+    margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: $text-primary;
+    text-transform: capitalize;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 40px;
+      height: 4px;
+      background: linear-gradient(90deg, $accent-color, $accent-hover);
+      border-radius: 2px;
+    }
+  }
+
+  .row-container {
+    position: relative;
+  }
+
+  .row-cards {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 50px;
+    scroll-padding: 50px;
+
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+    }
+  }
+
+  /* Scroll Buttons */
+  .scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+
+    width: 42px;
+    height: 100%;
+
+    border: none;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.8);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+  }
+
+  &:hover .scroll-btn {
+    opacity: 1;
+  }
+
+  .left {
+    left: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent);
+
+    &:hover {
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.95),
+        rgba(0, 0, 0, 0.6)
+      );
+    }
+  }
+
+  .right {
+    right: 0;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.8), transparent);
+
+    &:hover {
+      background: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0.95),
+        rgba(0, 0, 0, 0.6)
+      );
+    }
+  }
+
+  /* Netflix gradient edges */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, #000000, transparent);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, #000000, transparent);
+  }
+
+  // Responsive Design
+  @media (max-width: 1024px) {
+    margin: 40px 0;
+
+    h2 {
+      margin-left: 35px;
+      font-size: 22px;
+    }
+
+    .row-cards {
+      padding: 15px 35px;
+      gap: 6px;
+    }
+
+    .scroll-btn {
+      width: 38px;
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin: 35px 0;
+
+    h2 {
+      margin-left: 20px;
+      font-size: 20px;
+    }
+
+    .row-cards {
+      padding: 15px 20px;
+      gap: 4px;
+    }
+
+    &::before,
+    &::after {
+      width: 60px;
+    }
+
+    .scroll-btn {
+      width: 35px;
+      font-size: 18px;
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin: 30px 0;
+
+    h2 {
+      margin-left: 16px;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .row-cards {
+      padding: 12px 16px;
+      gap: 4px;
+    }
+
+    &::before,
+    &::after {
+      width: 40px;
+    }
+
+    .scroll-btn {
+      width: 32px;
+      font-size: 16px;
+      opacity: 0.4;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
