@@ -8,8 +8,8 @@ const ConnectToMongoDB = require("./config/Database");
 
 // Import route handlers for authentication, favorites, and history
 const AuthRoutes = require("./routes/Auth.routes");
-const FavoriteRoutes = require("./routes/favoriteRoutes");
-const HistoryRoutes = require("./routes/historyRoutes");
+const FavoriteRoutes = require("./routes/Favorite.routes");
+const HistoryRoutes = require("./routes/History.routes");
 
 // Load environment variables from .env file
 dotenv.config();

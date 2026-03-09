@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // Import the authentication middleware to protect routes
-const protect = require("../middleware/Auth.middleware").protect;
+const protect = require("../middleware/Auth.middleware");
 
 // Import the HistoryController which contains the logic for handling history-related requests
 const HistoryController = require("../controllers/History.Controller");

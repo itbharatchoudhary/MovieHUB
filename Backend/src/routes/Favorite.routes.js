@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // Import the authentication middleware to protect routes
-const protect = require("../middleware/Auth.middleware").protect;
+const protect = require("../middleware/Auth.middleware");
 
 // Import the FavoriteController which contains the logic for handling favorite-related requests
 const FavoriteController = require("../controllers/Favorite.Controller");
