@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import "./SignUp.scss";
+import { useNavigate } from "react-router-dom"; // For page navigation
+import "./Register.scss";
 
-const SignUp = () => {
-
+const Register = () => {
+  const navigate = useNavigate(); // initialize navigation
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -18,24 +19,30 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(form);
+
+    // ✅ Replace this with actual API call
+    console.log("User Register Data:", form);
+    alert("Registration Successful! Redirecting to Login page...");
+
+    // Reset form
+    setForm({ name: "", email: "", password: "" });
+
+    // Redirect to login page
+    navigate("/login");
   };
 
   return (
-    <div className="signupPage">
-
+    <div className="registerPage">
       <div className="overlay">
-
-        <div className="signupBox">
-
-          <h1>Sign Up</h1>
+        <div className="registerBox">
+          <h1>Register</h1>
 
           <form onSubmit={handleSubmit}>
-
             <input
               type="text"
               name="name"
               placeholder="Full Name"
+              value={form.name}
               onChange={handleChange}
               required
             />
@@ -44,6 +51,7 @@ const SignUp = () => {
               type="email"
               name="email"
               placeholder="Email Address"
+              value={form.email}
               onChange={handleChange}
               required
             />
@@ -52,26 +60,22 @@ const SignUp = () => {
               type="password"
               name="password"
               placeholder="Password"
+              value={form.password}
               onChange={handleChange}
               required
             />
 
-            <button type="submit">
-              Sign Up
-            </button>
-
+            <button type="submit">Register</button>
           </form>
 
           <p className="loginText">
-            Already have an account? <span>Login</span>
+            Already have an account?{" "}
+            <span onClick={() => navigate("/login")}>Login</span>
           </p>
-
         </div>
-
       </div>
-
     </div>
   );
 };
 
-export default SignUp;
+export default Register;

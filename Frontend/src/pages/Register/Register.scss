@@ -1,4 +1,4 @@
-.signupPage {
+.registerPage {
   height: 100vh;
   background-image: url("https://assets.nflxext.com/ffe/siteui/vlv3/9c8d4e02-5bcb-46e4-b0b7-7bbccf9f6b6c/9d7f71d0-9e4f-4a26-bc6f-8f4c9f76d6d6/IN-en-20230918-popsignuptwoweeks-perspective_alpha_website_large.jpg");
   background-size: cover;
@@ -9,7 +9,7 @@
 }
 
 .overlay {
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.75);
   width: 100%;
   height: 100%;
   display: flex;
@@ -17,38 +17,40 @@
   align-items: center;
 }
 
-.signupBox {
-  background: rgba(0,0,0,0.85);
+.registerBox {
+  background: rgba(0, 0, 0, 0.85);
   padding: 60px;
   width: 350px;
   border-radius: 8px;
   color: white;
 }
 
-.signupBox h1 {
+.registerBox h1 {
   margin-bottom: 30px;
+  text-align: center;
 }
 
-.signupBox form {
+.registerBox form {
   display: flex;
   flex-direction: column;
 }
 
-.signupBox input {
+.registerBox input {
   margin-bottom: 15px;
   padding: 12px;
   border-radius: 4px;
   border: none;
   background: #333;
   color: white;
+  font-size: 14px;
 }
 
-.signupBox input:focus {
+.registerBox input:focus {
   outline: none;
   background: #444;
 }
 
-.signupBox button {
+.registerBox button {
   margin-top: 10px;
   padding: 12px;
   background: #e50914;
@@ -58,9 +60,10 @@
   font-weight: bold;
   border-radius: 4px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.signupBox button:hover {
+.registerBox button:hover {
   background: #f6121d;
 }
 
@@ -68,6 +71,7 @@
   margin-top: 20px;
   font-size: 14px;
   color: #aaa;
+  text-align: center;
 }
 
 .loginText span {

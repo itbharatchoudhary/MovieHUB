@@ -18,39 +18,6 @@ body.light {
   background: #000000;
 }
 
-// ==================== Theme Toggle ====================
-
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 45px;
-  height: 45px;
-  padding: 8px;
-  border-radius: 50%;
-  border: 2px solid $accent-color;
-  cursor: pointer;
-  font-size: 1.3rem;
-  z-index: 999;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: rgba($accent-color, 0.1);
-    border-color: $accent-hover;
-    transform: scale(1.1);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-}
-
 // ==================== Animations ====================
 
 @keyframes fadeIn {

@@ -1,8 +1,7 @@
 import "./Favorites.scss";
-import MovieCard from "../components/MovieCard/MovieCard";
+import MovieCard from "../../components/MovieCard/MovieCard";
 
 const Favorites = ({ favorites, onFavorite }) => {
-
   return (
     <div className="favorites-page">
 
@@ -13,8 +12,10 @@ const Favorites = ({ favorites, onFavorite }) => {
 
       {favorites.length === 0 ? (
         <div className="empty-state">
-          <h2>No Favorites Yet</h2>
-          <p>Start adding movies you love ❤️</p>
+          <div className="empty-box">
+            <h2>No Favorites Yet</h2>
+            <p>Start adding movies you love ❤️</p>
+          </div>
         </div>
       ) : (
         <div className="favorites-grid">

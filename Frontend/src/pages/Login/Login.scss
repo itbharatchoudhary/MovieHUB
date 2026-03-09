@@ -1,118 +1,87 @@
-.login-page {
-
+.loginPage {
   height: 100vh;
-  width: 100%;
-
-  background-image: url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba");
+  background-image: url("https://assets.nflxext.com/ffe/siteui/vlv3/9c8d4e02-5bcb-46e4-b0b7-7bbccf9f6b6c/9d7f71d0-9e4f-4a26-bc6f-8f4c9f76d6d6/IN-en-20230918-popsignuptwoweeks-perspective_alpha_website_large.jpg");
   background-size: cover;
   background-position: center;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   position: relative;
 }
-
-/* Dark overlay */
 
 .overlay {
+  background: rgba(0, 0, 0, 0.75);
+  width: 100%;
+  height: 100%;
   position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
+  top: 0;
+  left: 0;
 }
 
-/* Login Card */
-
-.login-container {
-
+.loginBox {
   position: relative;
-
-  width: 380px;
-
-  padding: 40px;
-
-  background: rgba(0,0,0,0.85);
-
-  border-radius: 10px;
-
-  backdrop-filter: blur(10px);
-
+  background: rgba(0, 0, 0, 0.85);
+  padding: 60px;
+  width: 350px;
+  border-radius: 8px;
   color: white;
-
-  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-}
-
-/* Logo */
-
-.logo {
-  text-align: center;
-  color: #e50914;
-  font-size: 32px;
-  margin-bottom: 20px;
-}
-
-/* Form */
-
-form {
+  z-index: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-form h2 {
+.loginBox h1 {
   margin-bottom: 20px;
 }
 
-/* Inputs */
-
-input {
-
+.loginBox input {
   margin-bottom: 15px;
-
   padding: 12px;
-
-  border: none;
-
   border-radius: 4px;
-
+  border: none;
   background: #333;
-
   color: white;
-
-  font-size: 15px;
-
-  outline: none;
+  font-size: 14px;
+  width: 100%;
 }
 
-input:focus {
+.loginBox input:focus {
+  outline: none;
   background: #444;
 }
 
-/* Button */
-
-button {
-
+.loginBox button {
   margin-top: 10px;
-
   padding: 12px;
-
-  border: none;
-
-  border-radius: 4px;
-
   background: #e50914;
-
+  border: none;
   color: white;
-
   font-size: 16px;
-
   font-weight: bold;
-
+  border-radius: 4px;
   cursor: pointer;
-
-  transition: 0.25s;
+  width: 100%;
+  transition: background 0.3s ease;
 }
 
-button:hover {
-  background: #f40612;
+.loginBox button:hover {
+  background: #f6121d;
+}
+
+.registerText {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #aaa;
+  text-align: center;
+}
+
+.registerText span {
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.registerText span:hover {
+  text-decoration: underline;
 }

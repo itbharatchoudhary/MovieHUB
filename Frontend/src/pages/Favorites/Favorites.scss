@@ -1,50 +1,68 @@
 .favorites-page {
-  padding: 40px;
   min-height: 100vh;
-  background: #020617;
+  background: #0f0f0f;
+  color: white;
+  padding: 40px 60px;
 }
+
+/* Header */
 
 .favorites-header {
   margin-bottom: 40px;
 
   h1 {
-    font-size: 32px;
+    font-size: 38px;
     font-weight: 700;
-    color: white;
+    margin-bottom: 8px;
   }
 
   p {
-    color: #9ca3af;
-    margin-top: 5px;
+    color: #aaa;
+    font-size: 16px;
   }
 }
+
+/* Grid */
 
 .favorites-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 25px;
+  gap: 22px;
 }
 
-/* Empty State */
+/* Empty state */
 
 .empty-state {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
 
-  height: 50vh;
-
+.empty-box {
   text-align: center;
-  color: #9ca3af;
+  background: #181818;
+  padding: 50px;
+  border-radius: 14px;
+  border: 1px solid #2a2a2a;
+  width: 420px;
 
   h2 {
     font-size: 26px;
-    color: white;
     margin-bottom: 10px;
   }
 
   p {
-    font-size: 16px;
+    color: #9b9b9b;
   }
+}
+
+/* Smooth animation */
+
+.favorites-grid > * {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.favorites-grid > *:hover {
+  transform: scale(1.07);
 }

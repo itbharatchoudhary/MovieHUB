@@ -1,27 +1,33 @@
 import { useEffect } from "react";
+import { FaTimes } from "react-icons/fa";
 import "./TrailerModal.scss";
 
 const TrailerModal = ({ show, trailerUrl, onClose }) => {
 
-  // ESC key se close
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") onClose();
     };
 
     window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [onClose]);
 
   if (!show) return null;
 
   return (
     <div className="trailer-modal" onClick={onClose}>
-      
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+
+      <div
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()}
+      >
 
         <button className="close-btn" onClick={onClose}>
-          ✕
+          <FaTimes />
         </button>
 
         {trailerUrl ? (
@@ -29,13 +35,14 @@ const TrailerModal = ({ show, trailerUrl, onClose }) => {
             <iframe
               src={trailerUrl}
               title="Movie Trailer"
-              frameBorder="0"
+              allow="autoplay; encrypted-media"
               allowFullScreen
-            ></iframe>
+            />
           </div>
         ) : (
           <div className="no-trailer">
-            <p>Trailer not available</p>
+            <h3>Trailer Unavailable</h3>
+            <p>This movie currently has no trailer available.</p>
           </div>
         )}
 

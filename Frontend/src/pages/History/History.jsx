@@ -1,12 +1,12 @@
 import "./History.scss";
-import MovieCard from "../components/MovieCard/MovieCard";
+import MovieCard from "../../components/MovieCard/MovieCard";
 
 const History = ({ history, onFavorite, clearHistory }) => {
   return (
     <div className="history-page">
 
       <div className="history-header">
-        <div>
+        <div className="title-section">
           <h1>Watch History</h1>
           <p>Movies and shows you recently watched</p>
         </div>
@@ -20,8 +20,10 @@ const History = ({ history, onFavorite, clearHistory }) => {
 
       {history.length === 0 ? (
         <div className="empty-history">
-          <h2>No Watch History</h2>
-          <p>Start watching movies and they will appear here 🎬</p>
+          <div className="empty-box">
+            <h2>No Watch History</h2>
+            <p>Start watching movies and they will appear here 🎬</p>
+          </div>
         </div>
       ) : (
         <div className="history-grid">

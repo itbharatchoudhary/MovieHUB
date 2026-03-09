@@ -1,0 +1,26 @@
+.moviesPage {
+  padding: 20px;
+  min-height: 100vh;
+  background: #111;
+  color: white;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+  }
+}
+
+.moviesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.loading {
+  color: white;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 50px;
+}

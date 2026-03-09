@@ -3,10 +3,8 @@ import { useState } from "react";
 import { FaHeart, FaRegHeart, FaStar, FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-
-const MovieCard = ({ movie, onFavorite }) => {
+const MovieCard = ({ movie, onFavorite, onWatchTrailer }) => {
   const [hovered, setHovered] = useState(false);
-
   const navigate = useNavigate();
 
   const openDetails = () => {
@@ -22,19 +20,20 @@ const MovieCard = ({ movie, onFavorite }) => {
       className={`movie-card ${hovered ? "active" : ""}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={openDetails}
     >
       <img
         src={image}
         alt={movie.title}
+        onClick={openDetails}
         onError={(e) => {
           e.target.src = "/placeholder.png";
         }}
       />
 
-      {/* Rating Badge */}
+      {/* Rating */}
       <div className="rating">
-        <FaStar /> {movie.vote_average?.toFixed(1)}
+        <FaStar />
+        <span>{movie.vote_average?.toFixed(1) || "N/A"}</span>
       </div>
 
       {/* Hover Overlay */}
@@ -42,7 +41,13 @@ const MovieCard = ({ movie, onFavorite }) => {
         <h3>{movie.title}</h3>
 
         <div className="buttons">
-          <button className="play">
+          <button
+            className="play"
+            onClick={(e) => {
+              e.stopPropagation();
+              onWatchTrailer(movie.id, movie);
+            }}
+          >
             <FaPlay />
           </button>
 
