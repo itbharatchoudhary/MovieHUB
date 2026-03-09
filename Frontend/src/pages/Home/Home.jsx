@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import MovieRow from "../../components/MovieRow/MovieRow";
-import SearchBar from "../../components/SearchBar/SearchBar";
 import TrailerModal from "../../components/TrailerModal/TrailerModal";
 
 import {
@@ -136,22 +135,6 @@ const Home = () => {
 
   return (
     <div className="home">
-
-      <SearchBar onResults={setSearchResults} />
-
-      {searchResults.length > 0 ? (
-
-        <div className="search-section">
-          <MovieRow
-            title="Search Results"
-            movies={searchResults}
-            onFavorite={handleFavorite}
-            onWatchTrailer={handleWatchTrailer}
-          />
-        </div>
-
-      ) : (
-
         <>
           {!loading && heroMovie && (
             <HeroBanner
@@ -205,7 +188,6 @@ const Home = () => {
 
           </div>
         </>
-      )}
 
       <TrailerModal
         show={showTrailer}

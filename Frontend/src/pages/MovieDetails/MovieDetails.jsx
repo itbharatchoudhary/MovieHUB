@@ -1,14 +1,35 @@
-import React from "react";
 import "./MovieDetails.scss";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import api from "../../api/TMDB";
 
-const MovieDetails = ({ movie }) => {
+const MovieDetails = () => {
+
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
+
+  useEffect(() => {
+
+    const fetchMovie = async () => {
+
+      try {
+        const response = await api.get(`/movie/${id}`);
+        setMovie(response.data);
+      } catch (error) {
+        console.error("Error fetching movie details:", error);
+      }
+
+    };
+
+    fetchMovie();
+
+  }, [id]);
 
   if (!movie) return <div className="loading">Loading...</div>;
 
   return (
     <div className="movieDetails">
 
-      {/* HERO BANNER */}
       <div
         className="heroBanner"
         style={{
@@ -16,7 +37,6 @@ const MovieDetails = ({ movie }) => {
         }}
       >
         <div className="overlay">
-
           <div className="content">
 
             <h1 className="title">{movie.title}</h1>
@@ -30,52 +50,15 @@ const MovieDetails = ({ movie }) => {
               </span>
 
               <span className="language">
-                {movie.original_language.toUpperCase()}
+                {movie.original_language?.toUpperCase()}
               </span>
 
             </div>
 
-            <p className="description">
-              {movie.overview}
-            </p>
-
-            <div className="buttons">
-
-              <button className="playBtn">
-                ▶ Play
-              </button>
-
-              <button className="listBtn">
-                + My List
-              </button>
-
-            </div>
+            <p className="description">{movie.overview}</p>
 
           </div>
         </div>
-      </div>
-
-      {/* EXTRA DETAILS */}
-      <div className="extraInfo">
-
-        <h3>About this movie</h3>
-
-        <div className="infoGrid">
-
-          <div>
-            <strong>Original Title:</strong> {movie.original_title}
-          </div>
-
-          <div>
-            <strong>Popularity:</strong> {movie.popularity}
-          </div>
-
-          <div>
-            <strong>Vote Count:</strong> {movie.vote_count}
-          </div>
-
-        </div>
-
       </div>
 
     </div>
