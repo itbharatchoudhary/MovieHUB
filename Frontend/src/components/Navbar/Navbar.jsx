@@ -21,7 +21,6 @@ const Navbar = ({ onSearchResults }) => {
           <Link to="/"><i className="ri-compass-line"></i> Explore</Link>
           <Link to="/movies"><i className="ri-film-line"></i> Movies</Link>
           <Link to="/tv"><i className="ri-tv-line"></i> TV Shows</Link>
-          <Link to="/categories"><i className="ri-heart-line"></i> Categories</Link>
           <Link to="/myspace"><i className="ri-user-line"></i> My Space</Link>
           <Link to="/Search"><i className="ri-search-line"></i> Search</Link>
         </div>

@@ -19,7 +19,21 @@ const TvShows = ({ onFavorite }) => {
 
   const lastShowElementRef = useRef();
 
-  // Fetch TV shows
+  // ⭐ GENRE STATES
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState(null);
+
+  // ⭐ FETCH GENRES
+  const fetchGenres = async () => {
+    try {
+      const res = await api.get("/genre/tv/list");
+      setGenres(res.data.genres);
+    } catch (err) {
+      console.error("Error fetching genres", err);
+    }
+  };
+
+  // ⭐ FETCH TV SHOWS
   const fetchShows = async (pageNum = 1) => {
     try {
 
@@ -32,13 +46,12 @@ const TvShows = ({ onFavorite }) => {
         isFavorite: false,
       }));
 
-      // Random Hero Banner Show
+      // Random Hero Banner
       if (pageNum === 1 && res.data.results.length > 0) {
         const randomShow =
           res.data.results[
             Math.floor(Math.random() * res.data.results.length)
           ];
-
         setHeroShow(randomShow);
       }
 
@@ -53,14 +66,33 @@ const TvShows = ({ onFavorite }) => {
       setHasMore(res.data.page < res.data.total_pages);
 
     } catch (err) {
-
       console.error("Error fetching TV shows:", err);
       alert("Unable to fetch TV shows.");
-
     } finally {
-
       setLoading(false);
+    }
+  };
 
+  // ⭐ FILTER BY GENRE
+  const filterByGenre = async (genreId) => {
+    try {
+
+      setSelectedGenre(genreId);
+      setShows([]);
+      setPage(1);
+
+      const res = await api.get(`/discover/tv?with_genres=${genreId}`);
+
+      const showsWithFav = res.data.results.map((s) => ({
+        ...s,
+        isFavorite: false,
+      }));
+
+      setShows(showsWithFav);
+      setHasMore(false);
+
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -68,17 +100,20 @@ const TvShows = ({ onFavorite }) => {
     fetchShows(page);
   }, [page]);
 
-  // Infinite scroll
+  // ⭐ LOAD GENRES
+  useEffect(() => {
+    fetchGenres();
+  }, []);
+
+  // ⭐ INFINITE SCROLL
   useEffect(() => {
 
-    if (loading || !hasMore) return;
+    if (loading || !hasMore || selectedGenre) return;
 
     const observer = new IntersectionObserver((entries) => {
-
       if (entries[0].isIntersecting) {
         setPage((prev) => prev + 1);
       }
-
     });
 
     if (lastShowElementRef.current) {
@@ -91,9 +126,9 @@ const TvShows = ({ onFavorite }) => {
       }
     };
 
-  }, [loading, hasMore]);
+  }, [loading, hasMore, selectedGenre]);
 
-  // Favorite toggle
+  // ⭐ FAVORITE
   const handleFavorite = (show) => {
 
     setShows((prev) =>
@@ -105,7 +140,7 @@ const TvShows = ({ onFavorite }) => {
     if (onFavorite) onFavorite(show);
   };
 
-  // Watch trailer
+  // ⭐ WATCH TRAILER
   const handleWatchTrailer = async (showId) => {
 
     try {
@@ -117,24 +152,15 @@ const TvShows = ({ onFavorite }) => {
       );
 
       if (trailer) {
-
-        setTrailerUrl(
-          `https://www.youtube.com/embed/${trailer.key}?autoplay=1`
-        );
-
+        setTrailerUrl(`https://www.youtube.com/embed/${trailer.key}?autoplay=1`);
         setShowTrailer(true);
-
       } else {
-
         alert("Trailer not available.");
-
       }
 
     } catch (err) {
-
       console.error(err);
       alert("Cannot fetch trailer.");
-
     }
   };
 
@@ -156,6 +182,33 @@ const TvShows = ({ onFavorite }) => {
         />
       )}
 
+      {/* ⭐ GENRE SLIDER */}
+      <div className="genreSlider">
+
+        <button
+          className={!selectedGenre ? "active" : ""}
+          onClick={() => {
+            setSelectedGenre(null);
+            setShows([]);
+            setPage(1);
+            fetchShows(1);
+          }}
+        >
+          All
+        </button>
+
+        {genres.map((genre) => (
+          <button
+            key={genre.id}
+            className={selectedGenre === genre.id ? "active" : ""}
+            onClick={() => filterByGenre(genre.id)}
+          >
+            {genre.name}
+          </button>
+        ))}
+
+      </div>
+
       <h2>All Popular TV Shows</h2>
 
       <div className="tvShowsGrid">
@@ -169,20 +222,18 @@ const TvShows = ({ onFavorite }) => {
               ref={isLast ? lastShowElementRef : null}
               key={`${show.id}-${index}`}
             >
-
               <MovieCard
                 movie={show}
                 onFavorite={handleFavorite}
                 onWatchTrailer={handleWatchTrailer}
               />
-
             </div>
           );
         })}
 
       </div>
 
-      {loading && <div className="loading">Loading more TV shows...</div>}
+      {loading && <div className="loading">Loading TV shows...</div>}
       {!hasMore && <div className="end-message">No more TV shows.</div>}
 
       <TrailerModal

@@ -19,6 +19,20 @@ const Movies = ({ onFavorite }) => {
 
   const lastMovieElementRef = useRef();
 
+  // ⭐ GENRE STATES
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState(null);
+
+  // ⭐ FETCH GENRES
+  const fetchGenres = async () => {
+    try {
+      const res = await api.get("/genre/movie/list");
+      setGenres(res.data.genres);
+    } catch (err) {
+      console.error("Error fetching genres", err);
+    }
+  };
+
   // Fetch movies
   const fetchMovies = async (pageNum = 1) => {
     try {
@@ -58,13 +72,41 @@ const Movies = ({ onFavorite }) => {
     }
   };
 
+  // ⭐ FILTER BY GENRE
+  const filterByGenre = async (genreId) => {
+    try {
+
+      setSelectedGenre(genreId);
+      setMovies([]);
+      setPage(1);
+
+      const res = await api.get(`/discover/movie?with_genres=${genreId}`);
+
+      const moviesWithFav = res.data.results.map((m) => ({
+        ...m,
+        isFavorite: false,
+      }));
+
+      setMovies(moviesWithFav);
+      setHasMore(false);
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchMovies(page);
   }, [page]);
 
+  // ⭐ LOAD GENRES
+  useEffect(() => {
+    fetchGenres();
+  }, []);
+
   // Infinite scroll
   useEffect(() => {
-    if (loading || !hasMore) return;
+    if (loading || !hasMore || selectedGenre) return;
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
@@ -82,7 +124,7 @@ const Movies = ({ onFavorite }) => {
       }
     };
 
-  }, [loading, hasMore]);
+  }, [loading, hasMore, selectedGenre]);
 
   // Favorite toggle
   const handleFavorite = (movie) => {
@@ -133,6 +175,33 @@ const Movies = ({ onFavorite }) => {
           onFavorite={() => handleFavorite(heroMovie)}
         />
       )}
+
+      {/* ⭐ GENRE SLIDER */}
+      <div className="genreSlider">
+
+        <button
+          className={!selectedGenre ? "active" : ""}
+          onClick={() => {
+            setSelectedGenre(null);
+            setMovies([]);
+            setPage(1);
+            fetchMovies(1);
+          }}
+        >
+          All
+        </button>
+
+        {genres.map((genre) => (
+          <button
+            key={genre.id}
+            className={selectedGenre === genre.id ? "active" : ""}
+            onClick={() => filterByGenre(genre.id)}
+          >
+            {genre.name}
+          </button>
+        ))}
+
+      </div>
 
       <h2>All Popular Movies</h2>
 

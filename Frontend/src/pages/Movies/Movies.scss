@@ -38,7 +38,44 @@
   margin: 50px 0;
 }
 
-/* Trailer Modal overrides */
+/* 🎬 GENRE SLIDER */
+
+.genreSlider {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome / Safari */
+  }
+
+  button {
+    background: #222;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.3s;
+
+    &:hover {
+      background: #e50914;
+    }
+
+    &.active {
+      background: #e50914;
+    }
+  }
+}
+
+/* 🎬 Trailer Modal */
+
 .trailer-modal {
   position: fixed;
   top: 0;
@@ -79,7 +116,7 @@
 
     .video-wrapper {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      padding-bottom: 56.25%;
       height: 0;
 
       iframe {
@@ -114,6 +151,7 @@
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);

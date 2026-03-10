@@ -3,8 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Movies from "./pages/Movies/Movies"; // added Movies page
 import TvShows from "./pages/TVShows/TvShows"; // added TV Shows page
-import Categories from "./pages/Categories/Categories";
-import { categories } from "./data/categoriesData"; // import categories data
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Navbar from "./components/Navbar/Navbar";
@@ -51,11 +49,6 @@ function App() {
         <Route
           path="/tv"
           element={<TvShows onFavorite={handleFavorite} onWatch={handleWatch} />}
-        />
-        <Route
-          path="/categories"
-          element={<Categories categories={categories} onSelectCategory={setSelectedCategory} />
-          }
         />
         <Route
           path="/myspace"
