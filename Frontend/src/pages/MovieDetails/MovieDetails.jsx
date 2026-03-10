@@ -2,41 +2,28 @@ import "./MovieDetails.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../api/TMDB";
+import MovieCard from "../../components/MovieCard/MovieCard";
+import { FaStar, FaPlay } from "react-icons/fa";
 
 const MovieDetails = () => {
 
   const { id } = useParams();
 
   const [movie, setMovie] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [cast, setCast] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
 
   useEffect(() => {
 
     const fetchMovie = async () => {
 
-      try {
+      const movieRes = await api.get(`/movie/${id}`);
+      const castRes = await api.get(`/movie/${id}/credits`);
+      const similarRes = await api.get(`/movie/${id}/similar`);
 
-        setLoading(true);
-
-        const response = await api.get(`/movie/${id}`, {
-          params: {
-            append_to_response: "videos,credits"
-          }
-        });
-
-        setMovie(response.data);
-
-      } catch (err) {
-
-        console.error("Error fetching movie:", err);
-        setError("Failed to load movie details");
-
-      } finally {
-
-        setLoading(false);
-
-      }
+      setMovie(movieRes.data);
+      setCast(castRes.data.cast.slice(0, 10));
+      setSimilarMovies(similarRes.data.results.slice(0, 50));
 
     };
 
@@ -44,90 +31,45 @@ const MovieDetails = () => {
 
   }, [id]);
 
-  if (loading) {
-    return <div className="loading">Loading Movie...</div>;
-  }
+  if (!movie) return <div className="loading">Loading...</div>;
 
-  if (error) {
-    return <div className="error">{error}</div>;
-  }
-
-  const backdrop = movie.backdrop_path
-    ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-    : "";
-
-  const poster = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : "";
-
-  const trailer = movie.videos?.results?.find(
-    (vid) => vid.type === "Trailer" && vid.site === "YouTube"
-  );
+  const rating = movie.vote_average.toFixed(1);
 
   return (
     <div className="movieDetails">
 
-      {/* HERO SECTION */}
+      {/* BACKDROP */}
       <div
-        className="heroBanner"
-        style={{ backgroundImage: `url(${backdrop})` }}
+        className="backdrop"
+        style={{
+          backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`
+        }}
       >
         <div className="overlay">
 
-          <div className="content">
+          <div className="movieContent">
 
             <img
               className="poster"
-              src={poster}
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
             />
 
             <div className="info">
 
-              <h1 className="title">{movie.title}</h1>
+              <h1>{movie.title}</h1>
 
-              <div className="meta">
-
-                <span className="rating">
-                  ⭐ {movie.vote_average?.toFixed(1)}
-                </span>
-
-                <span className="year">
-                  {movie.release_date?.slice(0, 4)}
-                </span>
-
-                <span className="runtime">
-                  {movie.runtime} min
-                </span>
-
-                <span className="language">
-                  {movie.original_language?.toUpperCase()}
-                </span>
-
+              {/* STAR RATING */}
+              <div className="rating">
+                <FaStar className="star"/>
+                <span>{rating} / 10</span>
               </div>
 
-              {/* GENRES */}
-              <div className="genres">
-                {movie.genres?.map((genre) => (
-                  <span key={genre.id}>{genre.name}</span>
-                ))}
-              </div>
+              <p className="overview">{movie.overview}</p>
 
-              <p className="description">
-                {movie.overview}
-              </p>
-
-              {/* TRAILER BUTTON */}
-              {trailer && (
-                <a
-                  className="trailerBtn"
-                  href={`https://www.youtube.com/watch?v=${trailer.key}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  ▶ Watch Trailer
-                </a>
-              )}
+              <button className="playBtn">
+                <FaPlay /> Watch Trailer
+              </button>
 
             </div>
 
@@ -137,20 +79,20 @@ const MovieDetails = () => {
       </div>
 
       {/* CAST SECTION */}
-      <div className="castSection">
+      <div className="section">
 
-        <h2>Top Cast</h2>
+        <h2>Cast</h2>
 
-        <div className="castGrid">
+        <div className="castList">
 
-          {movie.credits?.cast?.slice(0, 10).map((actor) => (
+          {cast.map(actor => (
 
             <div key={actor.id} className="castCard">
 
               <img
                 src={
                   actor.profile_path
-                    ? `https://image.tmdb.org/t/p/w185${actor.profile_path}`
+                    ? `https://image.tmdb.org/t/p/w200${actor.profile_path}`
                     : "/no-avatar.png"
                 }
                 alt={actor.name}
@@ -167,9 +109,23 @@ const MovieDetails = () => {
 
       </div>
 
+      {/* SIMILAR MOVIES */}
+      <div className="section">
+
+        <h2>Similar Movies</h2>
+
+        <div className="similarMovies">
+
+          {similarMovies.map(movie => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+
+        </div>
+
+      </div>
+
     </div>
   );
-
 };
 
 export default MovieDetails;
