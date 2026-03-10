@@ -1,128 +1,91 @@
 .movieDetails {
-  background: #141414;
   color: white;
-  min-height: 100vh;
 }
 
-/* HERO SECTION */
-
 .heroBanner {
-  height: 85vh;
+  height: 80vh;
   background-size: cover;
   background-position: center;
   position: relative;
 }
 
 .overlay {
+  background: rgba(0,0,0,0.75);
   height: 100%;
-  background: linear-gradient(
-    to top,
-    rgba(20,20,20,1) 10%,
-    rgba(20,20,20,0.6) 50%,
-    rgba(20,20,20,0.2) 100%
-  );
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .content {
-  max-width: 700px;
+  display: flex;
+  gap: 40px;
   padding: 60px;
+  max-width: 1200px;
+}
+
+.poster {
+  width: 300px;
+  border-radius: 10px;
+}
+
+.info {
+  max-width: 600px;
 }
 
 .title {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 15px;
+  font-size: 40px;
+  margin-bottom: 10px;
 }
-
-/* META INFO */
 
 .meta {
   display: flex;
   gap: 15px;
-  margin-bottom: 20px;
-  font-weight: 600;
+  margin-bottom: 15px;
 }
 
-.rating {
-  color: #46d369;
+.genres span {
+  background: #ff3d00;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 5px;
 }
-
-.year {
-  color: #ccc;
-}
-
-.language {
-  border: 1px solid #aaa;
-  padding: 2px 6px;
-}
-
-/* DESCRIPTION */
 
 .description {
-  font-size: 1rem;
+  margin-top: 15px;
   line-height: 1.6;
-  color: #ddd;
-  margin-bottom: 25px;
 }
 
-/* BUTTONS */
-
-.buttons {
-  display: flex;
-  gap: 15px;
-}
-
-.playBtn {
-  background: white;
-  color: black;
-  border: none;
-  padding: 12px 28px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.playBtn:hover {
-  background: #e6e6e6;
-}
-
-.listBtn {
-  background: rgba(109,109,110,0.7);
-  color: white;
-  border: none;
-  padding: 12px 28px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.listBtn:hover {
-  background: rgba(109,109,110,0.9);
-}
-
-/* EXTRA INFO */
-
-.extraInfo {
-  padding: 50px 60px;
-}
-
-.infoGrid {
+.trailerBtn {
+  display: inline-block;
   margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap: 20px;
-  color: #ccc;
+  background: red;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
 }
 
-.loading {
-  background: #141414;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
+.castSection {
+  padding: 40px 60px;
+}
+
+.castGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,150px);
+  gap: 20px;
+}
+
+.castCard img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.actorName {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.character {
+  font-size: 13px;
+  opacity: 0.7;
 }

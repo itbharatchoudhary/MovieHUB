@@ -10,6 +10,7 @@ import Register from "./pages/Register/Register";
 import Navbar from "./components/Navbar/Navbar";
 import Search from "./pages/Search/Search";
 import MySpace from "./pages/MySpace/MySpace"; // added MySpace page
+import MovieDetails from "./pages/MovieDetails/MovieDetails";
 
 function App() {
   const [favorites, setFavorites] = useState([]);
@@ -68,6 +69,7 @@ function App() {
             />
           }
         />
+        <Route path="/movie/:id" element={<MovieDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route

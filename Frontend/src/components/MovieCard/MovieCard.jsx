@@ -4,6 +4,7 @@ import { FaHeart, FaRegHeart, FaStar, FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({ movie, onFavorite, onWatchTrailer }) => {
+
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
 
@@ -20,11 +21,12 @@ const MovieCard = ({ movie, onFavorite, onWatchTrailer }) => {
       className={`movie-card ${hovered ? "active" : ""}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={openDetails}   // ✅ entire card clickable
     >
+
       <img
         src={image}
-        alt={movie.title}
-        onClick={openDetails}
+        alt={movie.title || movie.name}
         onError={(e) => {
           e.target.src = "/placeholder.png";
         }}
@@ -38,13 +40,15 @@ const MovieCard = ({ movie, onFavorite, onWatchTrailer }) => {
 
       {/* Hover Overlay */}
       <div className="overlay">
-        <h3>{movie.title}</h3>
+
+        <h3>{movie.title || movie.name}</h3>
 
         <div className="buttons">
+
           <button
             className="play"
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation(); // prevent navigation
               onWatchTrailer(movie.id, movie);
             }}
           >
@@ -54,14 +58,17 @@ const MovieCard = ({ movie, onFavorite, onWatchTrailer }) => {
           <button
             className="fav"
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation(); // prevent navigation
               onFavorite(movie);
             }}
           >
             {movie.isFavorite ? <FaHeart /> : <FaRegHeart />}
           </button>
+
         </div>
+
       </div>
+
     </div>
   );
 };
