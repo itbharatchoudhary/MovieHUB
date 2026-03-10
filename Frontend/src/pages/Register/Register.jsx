@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // For page navigation
+import { useNavigate } from "react-router-dom";
 import "./Register.scss";
 
 const Register = () => {
-  const navigate = useNavigate(); // initialize navigation
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    confirmPassword: ""
   });
 
   const handleChange = (e) => {
@@ -20,60 +22,98 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // ✅ Replace this with actual API call
-    console.log("User Register Data:", form);
-    alert("Registration Successful! Redirecting to Login page...");
+    if (form.password !== form.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
 
-    // Reset form
-    setForm({ name: "", email: "", password: "" });
+    console.log("Register Data:", form);
 
-    // Redirect to login page
+    alert("Account created successfully!");
+
+    setForm({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    });
+
     navigate("/login");
   };
 
   return (
     <div className="registerPage">
-      <div className="overlay">
-        <div className="registerBox">
-          <h1>Register</h1>
 
-          <form onSubmit={handleSubmit}>
+      <div className="registerContainer">
+
+        <div className="registerHeader">
+          <h1>Create Your Account</h1>
+          <p>Join MovieHUB and start exploring movies</p>
+        </div>
+
+        <form className="registerForm" onSubmit={handleSubmit}>
+
+          <div className="inputGroup">
+            <label>Full Name</label>
             <input
               type="text"
               name="name"
-              placeholder="Full Name"
+              placeholder="Enter your name"
               value={form.name}
               onChange={handleChange}
               required
             />
+          </div>
 
+          <div className="inputGroup">
+            <label>Email</label>
             <input
               type="email"
               name="email"
-              placeholder="Email Address"
+              placeholder="Enter your email"
               value={form.email}
               onChange={handleChange}
               required
             />
+          </div>
 
+          <div className="inputGroup">
+            <label>Password</label>
             <input
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="Create password"
               value={form.password}
               onChange={handleChange}
               required
             />
+          </div>
 
-            <button type="submit">Register</button>
-          </form>
+          <div className="inputGroup">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm password"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          <p className="loginText">
-            Already have an account?{" "}
-            <span onClick={() => navigate("/login")}>Login</span>
-          </p>
+          <button type="submit" className="registerBtn">
+            Create Account
+          </button>
+
+        </form>
+
+        <div className="loginRedirect">
+          Already have an account?
+          <span onClick={() => navigate("/login")}> Login</span>
         </div>
+
       </div>
+
     </div>
   );
 };

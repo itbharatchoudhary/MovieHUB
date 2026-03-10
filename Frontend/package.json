@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.13.6",
+    "fuse.js": "^7.1.0",
     "lodash.debounce": "^4.0.8",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -20,6 +21,7 @@
     "react-player": "^3.4.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.1",
+    "remixicon": "^4.9.1",
     "sass": "^1.97.3"
   },
   "devDependencies": {

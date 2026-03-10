@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import MovieCard from "../../components/MovieCard/MovieCard";
+import MovieCard from "../../components/MovieCard/MovieCard"; // same card component use kar sakte ho
 import TrailerModal from "../../components/TrailerModal/TrailerModal";
-import "./Movies.scss";
+import "./TvShows.scss";
 import api from "../../api/TMDB";
 
-const Movies = ({ onFavorite }) => {
-  const [movies, setMovies] = useState([]);
+const TvShows = ({ onFavorite }) => {
+  const [shows, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -13,37 +13,37 @@ const Movies = ({ onFavorite }) => {
   const [trailerUrl, setTrailerUrl] = useState("");
   const [showTrailer, setShowTrailer] = useState(false);
 
-  const lastMovieElementRef = useRef();
+  const lastShowElementRef = useRef();
 
-  // Fetch movies
-  const fetchMovies = async (pageNum = 1) => {
+  // Fetch TV shows
+  const fetchShows = async (pageNum = 1) => {
     try {
       setLoading(true);
-      const res = await api.get(`/movie/popular?page=${pageNum}`);
-      const moviesWithFav = res.data.results.map((m) => ({
-        ...m,
+      const res = await api.get(`/tv/popular?page=${pageNum}`);
+      const showsWithFav = res.data.results.map((s) => ({
+        ...s,
         isFavorite: false,
       }));
 
       // Avoid duplicates
-      setMovies((prev) => {
-        const newMovies = moviesWithFav.filter(
-          (m) => !prev.some((prevMovie) => prevMovie.id === m.id)
+      setShows((prev) => {
+        const newShows = showsWithFav.filter(
+          (s) => !prev.some((prevShow) => prevShow.id === s.id)
         );
-        return [...prev, ...newMovies];
+        return [...prev, ...newShows];
       });
 
       setHasMore(res.data.page < res.data.total_pages);
     } catch (err) {
-      console.error("Error fetching movies:", err);
-      alert("Unable to fetch movies. Please check your internet connection.");
+      console.error("Error fetching TV shows:", err);
+      alert("Unable to fetch TV shows. Please check your internet connection.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchMovies(page);
+    fetchShows(page);
   }, [page]);
 
   // Infinite scroll
@@ -60,33 +60,33 @@ const Movies = ({ onFavorite }) => {
       threshold: 1.0,
     });
 
-    if (lastMovieElementRef.current) observer.observe(lastMovieElementRef.current);
+    if (lastShowElementRef.current) observer.observe(lastShowElementRef.current);
 
     return () => {
-      if (lastMovieElementRef.current) observer.unobserve(lastMovieElementRef.current);
+      if (lastShowElementRef.current) observer.unobserve(lastShowElementRef.current);
     };
   }, [loading, hasMore]);
 
   // Favorite toggle
-  const handleFavorite = (movie) => {
-    setMovies((prev) =>
-      prev.map((m) =>
-        m.id === movie.id ? { ...m, isFavorite: !m.isFavorite } : m
+  const handleFavorite = (show) => {
+    setShows((prev) =>
+      prev.map((s) =>
+        s.id === show.id ? { ...s, isFavorite: !s.isFavorite } : s
       )
     );
-    if (onFavorite) onFavorite(movie);
+    if (onFavorite) onFavorite(show);
   };
 
   // Watch trailer inline
-  const handleWatchTrailer = async (movieId) => {
+  const handleWatchTrailer = async (showId) => {
     try {
-      const res = await api.get(`/movie/${movieId}/videos`, { timeout: 5000 });
+      const res = await api.get(`/tv/${showId}/videos`, { timeout: 5000 });
       const trailer = res.data.results.find((vid) => vid.type === "Trailer");
       if (trailer) {
         setTrailerUrl(`https://www.youtube.com/embed/${trailer.key}?autoplay=1`);
         setShowTrailer(true);
       } else {
-        alert("Trailer not available for this movie.");
+        alert("Trailer not available for this show.");
       }
     } catch (err) {
       console.error("Error fetching trailer:", err);
@@ -100,17 +100,17 @@ const Movies = ({ onFavorite }) => {
   };
 
   return (
-    <div className="moviesPage">
-      <h2>All Popular Movies</h2>
+    <div className="tvShowsPage">
+      <h2>All Popular TV Shows</h2>
 
-      <div className="moviesGrid">
-        {movies.map((movie, index) => {
-          const isLast = movies.length === index + 1;
-          const key = `${movie.id}-${index}`; // ensures unique key
+      <div className="tvShowsGrid">
+        {shows.map((show, index) => {
+          const isLast = shows.length === index + 1;
+          const key = `${show.id}-${index}`;
           return (
-            <div ref={isLast ? lastMovieElementRef : null} key={key}>
+            <div ref={isLast ? lastShowElementRef : null} key={key}>
               <MovieCard
-                movie={movie}
+                movie={show} // same card can handle TV shows too
                 onFavorite={handleFavorite}
                 onWatchTrailer={handleWatchTrailer}
               />
@@ -119,8 +119,8 @@ const Movies = ({ onFavorite }) => {
         })}
       </div>
 
-      {loading && <div className="loading">Loading more movies...</div>}
-      {!hasMore && <div className="end-message">No more movies to show.</div>}
+      {loading && <div className="loading">Loading more TV shows...</div>}
+      {!hasMore && <div className="end-message">No more TV shows to show.</div>}
 
       {/* Trailer modal */}
       <TrailerModal
@@ -132,4 +132,4 @@ const Movies = ({ onFavorite }) => {
   );
 };
 
-export default Movies;
+export default TvShows;

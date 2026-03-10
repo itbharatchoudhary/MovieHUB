@@ -2,17 +2,20 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Movies from "./pages/Movies/Movies"; // added Movies page
-import Favorites from "./pages/Favorites/Favorites";
-import History from "./pages/History/History";
+import TvShows from "./pages/TVShows/TvShows"; // added TV Shows page
+import Categories from "./pages/Categories/Categories";
+import { categories } from "./data/categoriesData"; // import categories data
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Navbar from "./components/Navbar/Navbar";
 import Search from "./pages/Search/Search";
+import MySpace from "./pages/MySpace/MySpace"; // added MySpace page
 
 function App() {
   const [favorites, setFavorites] = useState([]);
   const [history, setHistory] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null); // add state
 
   const handleFavorite = (movie) => {
     setFavorites((prev) => {
@@ -45,13 +48,20 @@ function App() {
           element={<Movies onFavorite={handleFavorite} onWatch={handleWatch} />}
         />
         <Route
-          path="/favorites"
-          element={<Favorites favorites={favorites} onFavorite={handleFavorite} />}
+          path="/tv"
+          element={<TvShows onFavorite={handleFavorite} onWatch={handleWatch} />}
         />
         <Route
-          path="/history"
+          path="/categories"
+          element={<Categories categories={categories} onSelectCategory={setSelectedCategory} />
+          }
+        />
+        <Route
+          path="/myspace"
           element={
-            <History
+            <MySpace
+              user={{ name: "John Doe", email: "john.doe@example.com", avatar: "https://i.pinimg.com/1200x/cf/75/83/cf7583bda310d93c1c9e3c264ddd4af1.jpg" }}
+              favorites={favorites}
               history={history}
               onFavorite={handleFavorite}
               clearHistory={clearHistory}

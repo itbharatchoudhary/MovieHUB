@@ -1,81 +1,93 @@
 .registerPage {
-  height: 100vh;
-  background-image: url("https://assets.nflxext.com/ffe/siteui/vlv3/9c8d4e02-5bcb-46e4-b0b7-7bbccf9f6b6c/9d7f71d0-9e4f-4a26-bc6f-8f4c9f76d6d6/IN-en-20230918-popsignuptwoweeks-perspective_alpha_website_large.jpg");
-  background-size: cover;
-  background-position: center;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #0f172a, #020617);
+  padding: 20px;
 }
 
-.overlay {
-  background: rgba(0, 0, 0, 0.75);
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.registerBox {
-  background: rgba(0, 0, 0, 0.85);
-  padding: 60px;
-  width: 350px;
-  border-radius: 8px;
+.registerContainer {
+  width: 420px;
+  background: #111827;
+  padding: 40px;
+  border-radius: 10px;
   color: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-.registerBox h1 {
-  margin-bottom: 30px;
+.registerHeader {
   text-align: center;
+  margin-bottom: 30px;
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: #9ca3af;
+    font-size: 14px;
+  }
 }
 
-.registerBox form {
+.registerForm {
   display: flex;
   flex-direction: column;
+  gap: 18px;
 }
 
-.registerBox input {
-  margin-bottom: 15px;
-  padding: 12px;
-  border-radius: 4px;
-  border: none;
-  background: #333;
-  color: white;
-  font-size: 14px;
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #9ca3af;
+  }
+
+  input {
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    background: #1f2937;
+    color: white;
+    font-size: 14px;
+  }
+
+  input:focus {
+    outline: none;
+    border: 1px solid #ef4444;
+  }
 }
 
-.registerBox input:focus {
-  outline: none;
-  background: #444;
-}
-
-.registerBox button {
+.registerBtn {
   margin-top: 10px;
   padding: 12px;
-  background: #e50914;
   border: none;
+  border-radius: 6px;
+  background: #ef4444;
   color: white;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 4px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: 0.3s;
 }
 
-.registerBox button:hover {
-  background: #f6121d;
+.registerBtn:hover {
+  background: #dc2626;
 }
 
-.loginText {
-  margin-top: 20px;
-  font-size: 14px;
-  color: #aaa;
+.loginRedirect {
+  margin-top: 25px;
   text-align: center;
-}
+  font-size: 14px;
+  color: #9ca3af;
 
-.loginText span {
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
+  span {
+    margin-left: 6px;
+    color: #ef4444;
+    cursor: pointer;
+    font-weight: 600;
+  }
 }

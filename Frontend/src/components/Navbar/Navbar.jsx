@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Navbar.scss";
-import SearchBar from "../SearchBar/SearchBar";
 import { Link, useNavigate } from "react-router-dom";
+import 'remixicon/fonts/remixicon.css'
 
 const Navbar = ({ onSearchResults }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,15 +18,17 @@ const Navbar = ({ onSearchResults }) => {
         </div>
 
         <div className="links">
-          <Link to="/">Explore</Link>
-          <Link to="/movies">Movies</Link>
-          <Link to="/tv">TV Shows</Link>
-          <Link to="/favorites">Favorites</Link>
+          <Link to="/"><i className="ri-compass-line"></i> Explore</Link>
+          <Link to="/movies"><i className="ri-film-line"></i> Movies</Link>
+          <Link to="/tv"><i className="ri-tv-line"></i> TV Shows</Link>
+          <Link to="/categories"><i className="ri-heart-line"></i> Categories</Link>
+          <Link to="/myspace"><i className="ri-user-line"></i> My Space</Link>
+          <Link to="/Search"><i className="ri-search-line"></i> Search</Link>
         </div>
       </div>
 
       <div className="nav-right">
-        <SearchBar onResults={onSearchResults} />
+        
 
         {isLoggedIn ? (
           <Link to="/profile">

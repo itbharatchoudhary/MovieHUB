@@ -89,7 +89,7 @@ const Home = ({ onFavorite, onWatch }) => {
     <div className="home">
       {loading ? (
         <div className="loading-screen">
-          <h2>Loading Movies...</h2>
+          <h2>Loading ...</h2>
         </div>
       ) : (
         <>
