@@ -1,11 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import MovieCard from "../../components/MovieCard/MovieCard"; // same card component use kar sakte ho
+import MovieCard from "../../components/MovieCard/MovieCard";
 import TrailerModal from "../../components/TrailerModal/TrailerModal";
+import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import "./TvShows.scss";
 import api from "../../api/TMDB";
 
 const TvShows = ({ onFavorite }) => {
+
   const [shows, setShows] = useState([]);
+  const [heroShow, setHeroShow] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -18,12 +22,25 @@ const TvShows = ({ onFavorite }) => {
   // Fetch TV shows
   const fetchShows = async (pageNum = 1) => {
     try {
+
       setLoading(true);
+
       const res = await api.get(`/tv/popular?page=${pageNum}`);
+
       const showsWithFav = res.data.results.map((s) => ({
         ...s,
         isFavorite: false,
       }));
+
+      // Random Hero Banner Show
+      if (pageNum === 1 && res.data.results.length > 0) {
+        const randomShow =
+          res.data.results[
+            Math.floor(Math.random() * res.data.results.length)
+          ];
+
+        setHeroShow(randomShow);
+      }
 
       // Avoid duplicates
       setShows((prev) => {
@@ -34,11 +51,16 @@ const TvShows = ({ onFavorite }) => {
       });
 
       setHasMore(res.data.page < res.data.total_pages);
+
     } catch (err) {
+
       console.error("Error fetching TV shows:", err);
-      alert("Unable to fetch TV shows. Please check your internet connection.");
+      alert("Unable to fetch TV shows.");
+
     } finally {
+
       setLoading(false);
+
     }
   };
 
@@ -48,49 +70,71 @@ const TvShows = ({ onFavorite }) => {
 
   // Infinite scroll
   useEffect(() => {
+
     if (loading || !hasMore) return;
 
-    const observerCallback = (entries) => {
-      if (entries[0].isIntersecting) setPage((prev) => prev + 1);
-    };
+    const observer = new IntersectionObserver((entries) => {
 
-    const observer = new IntersectionObserver(observerCallback, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 1.0,
+      if (entries[0].isIntersecting) {
+        setPage((prev) => prev + 1);
+      }
+
     });
 
-    if (lastShowElementRef.current) observer.observe(lastShowElementRef.current);
+    if (lastShowElementRef.current) {
+      observer.observe(lastShowElementRef.current);
+    }
 
     return () => {
-      if (lastShowElementRef.current) observer.unobserve(lastShowElementRef.current);
+      if (lastShowElementRef.current) {
+        observer.unobserve(lastShowElementRef.current);
+      }
     };
+
   }, [loading, hasMore]);
 
   // Favorite toggle
   const handleFavorite = (show) => {
+
     setShows((prev) =>
       prev.map((s) =>
         s.id === show.id ? { ...s, isFavorite: !s.isFavorite } : s
       )
     );
+
     if (onFavorite) onFavorite(show);
   };
 
-  // Watch trailer inline
+  // Watch trailer
   const handleWatchTrailer = async (showId) => {
+
     try {
-      const res = await api.get(`/tv/${showId}/videos`, { timeout: 5000 });
-      const trailer = res.data.results.find((vid) => vid.type === "Trailer");
+
+      const res = await api.get(`/tv/${showId}/videos`);
+
+      const trailer = res.data.results.find(
+        (vid) => vid.type === "Trailer"
+      );
+
       if (trailer) {
-        setTrailerUrl(`https://www.youtube.com/embed/${trailer.key}?autoplay=1`);
+
+        setTrailerUrl(
+          `https://www.youtube.com/embed/${trailer.key}?autoplay=1`
+        );
+
         setShowTrailer(true);
+
       } else {
-        alert("Trailer not available for this show.");
+
+        alert("Trailer not available.");
+
       }
+
     } catch (err) {
-      console.error("Error fetching trailer:", err);
-      alert("Cannot fetch trailer. Please try again later.");
+
+      console.error(err);
+      alert("Cannot fetch trailer.");
+
     }
   };
 
@@ -100,34 +144,53 @@ const TvShows = ({ onFavorite }) => {
   };
 
   return (
+
     <div className="tvShowsPage">
+
+      {/* Hero Banner */}
+      {heroShow && (
+        <HeroBanner
+          movie={heroShow}
+          onWatchTrailer={() => handleWatchTrailer(heroShow.id)}
+          onFavorite={() => handleFavorite(heroShow)}
+        />
+      )}
+
       <h2>All Popular TV Shows</h2>
 
       <div className="tvShowsGrid">
+
         {shows.map((show, index) => {
+
           const isLast = shows.length === index + 1;
-          const key = `${show.id}-${index}`;
+
           return (
-            <div ref={isLast ? lastShowElementRef : null} key={key}>
+            <div
+              ref={isLast ? lastShowElementRef : null}
+              key={`${show.id}-${index}`}
+            >
+
               <MovieCard
-                movie={show} // same card can handle TV shows too
+                movie={show}
                 onFavorite={handleFavorite}
                 onWatchTrailer={handleWatchTrailer}
               />
+
             </div>
           );
         })}
+
       </div>
 
       {loading && <div className="loading">Loading more TV shows...</div>}
-      {!hasMore && <div className="end-message">No more TV shows to show.</div>}
+      {!hasMore && <div className="end-message">No more TV shows.</div>}
 
-      {/* Trailer modal */}
       <TrailerModal
         show={showTrailer}
         trailerUrl={trailerUrl}
         onClose={closeTrailer}
       />
+
     </div>
   );
 };

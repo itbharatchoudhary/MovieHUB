@@ -1,24 +1,39 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // for SPA navigation
+import { useNavigate } from "react-router-dom";
 import "./Login.scss";
 import api from "../../api/TMDB";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const [form, setForm] = useState({
+    email: "",
+    password: ""
+  });
+
   const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await api.post("/auth/login", { email, password });
+      const res = await api.post("/auth/login", form);
+
       localStorage.setItem("token", res.data.token);
-      navigate("/"); // SPA navigation to home
+
+      alert("Login successful 🎉");
+
+      navigate("/");
     } catch (err) {
-      alert("Invalid credentials");
+      alert("Invalid email or password");
       console.log(err);
     } finally {
       setLoading(false);
@@ -27,38 +42,53 @@ const Login = () => {
 
   return (
     <div className="loginPage">
-      <div className="overlay"></div>
 
-      <div className="loginBox">
-        <h1>Login</h1>
+      <div className="loginContainer">
 
-        <form onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <div className="loginHeader">
+          <h1>Welcome Back</h1>
+          <p>Login to continue exploring MovieHUB</p>
+        </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <form className="loginForm" onSubmit={handleLogin}>
 
-          <button type="submit" disabled={loading}>
+          <div className="inputGroup">
+            <label>Email Address</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="inputGroup">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <button type="submit" className="loginBtn" disabled={loading}>
             {loading ? "Logging In..." : "Login"}
           </button>
 
-          <p className="registerText">
-            Don't have an account?{" "}
-            <span onClick={() => navigate("/register")}>Register</span>
-          </p>
         </form>
+
+        <div className="registerRedirect">
+          Don't have an account?
+          <span onClick={() => navigate("/register")}> Register</span>
+        </div>
+
       </div>
+
     </div>
   );
 };
