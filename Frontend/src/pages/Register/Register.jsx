@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../api/AuthApi";
 import "./Register.scss";
 
 const Register = () => {
+
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -12,6 +14,8 @@ const Register = () => {
     confirmPassword: ""
   });
 
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -19,29 +23,42 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setError("");
+
+    // confirm password check
     if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
 
-    console.log("Register Data:", form);
+    try {
 
-    alert("Account created successfully!");
+      const userData = {
+        name: form.name,
+        email: form.email,
+        password: form.password
+      };
 
-    setForm({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: ""
-    });
+      const res = await registerUser(userData);
 
-    navigate("/login");
+      localStorage.setItem("token", res.token);
+
+      navigate("/");
+
+    } catch (err) {
+
+      setError(
+        err.response?.data?.message || "Registration failed"
+      );
+
+    }
   };
 
   return (
+
     <div className="registerPage">
 
       <div className="registerContainer">
@@ -50,6 +67,8 @@ const Register = () => {
           <h1>Create Your Account</h1>
           <p>Join MovieHUB and start exploring movies</p>
         </div>
+
+        {error && <p className="errorMsg">{error}</p>}
 
         <form className="registerForm" onSubmit={handleSubmit}>
 

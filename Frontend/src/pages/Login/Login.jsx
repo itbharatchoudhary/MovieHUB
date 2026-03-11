@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.scss";
-import api from "../../api/TMDB";
+import { loginUser } from "../../api/AuthApi";
 
 const Login = () => {
+
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -21,24 +22,37 @@ const Login = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
 
-    try {
-      const res = await api.post("/auth/login", form);
+  e.preventDefault();
+  setLoading(true);
 
-      localStorage.setItem("token", res.data.token);
+  try {
 
-      alert("Login successful 🎉");
+    const res = await loginUser(form);
 
-      navigate("/");
-    } catch (err) {
-      alert("Invalid email or password");
-      console.log(err);
-    } finally {
-      setLoading(false);
+    console.log("Login response:", res);
+
+    if (!res || !res.token) {
+      throw new Error("Token not received from server");
     }
-  };
+
+    localStorage.setItem("token", res.token);
+
+    alert("Login successful 🎉");
+
+    navigate("/");
+
+  } catch (err) {
+
+    console.error("Login error:", err);
+    alert(err.message || "Invalid email or password");
+
+  } finally {
+
+    setLoading(false);
+
+  }
+};
 
   return (
     <div className="loginPage">

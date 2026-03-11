@@ -9,6 +9,8 @@ import Navbar from "./components/Navbar/Navbar";
 import Search from "./pages/Search/Search";
 import MySpace from "./pages/MySpace/MySpace"; // added MySpace page
 import MovieDetails from "./pages/MovieDetails/MovieDetails";
+import { addFavorite } from "./api/UserApi";
+import { addHistory } from "./api/UserApi";
 
 function App() {
   const [favorites, setFavorites] = useState([]);
@@ -16,20 +18,28 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null); // add state
 
-  const handleFavorite = (movie) => {
+  const handleFavorite = async (movie) => {
+
+    await addFavorite(movie);
+
     setFavorites((prev) => {
       const exists = prev.find((m) => m.id === movie.id);
       if (exists) return prev.filter((m) => m.id !== movie.id);
       return [...prev, movie];
     });
+
   };
 
-  const handleWatch = (movie) => {
+  const handleWatch = async (movie) => {
+
+    await addHistory(movie);
+
     setHistory((prev) => {
       const exists = prev.find((m) => m.id === movie.id);
       if (exists) return prev;
       return [...prev, movie];
     });
+
   };
 
   const clearHistory = () => setHistory([]);

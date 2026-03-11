@@ -1,31 +1,70 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: {
-    type: String,
-    unique: true
+const favoriteSchema = new mongoose.Schema(
+  {
+    movieId: {
+      type: Number,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    poster: {
+      type: String
+    }
   },
-  password: String,
+  { _id: false }
+);
 
-  favorites: [
-    {
-      movieId: Number,
-      title: String,
-      poster: String
+const historySchema = new mongoose.Schema(
+  {
+    movieId: {
+      type: Number,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    watchedAt: {
+      type: Date,
+      default: Date.now
     }
-  ],
+  },
+  { _id: false }
+);
 
-  history: [
-    {
-      movieId: Number,
-      title: String,
-      watchedAt: {
-        type: Date,
-        default: Date.now
-      }
-    }
-  ]
-});
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true
+    },
 
-export default mongoose.model("User", userSchema);
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true
+    },
+
+    password: {
+      type: String,
+      required: true
+    },
+
+    favorites: [favoriteSchema],
+
+    history: [historySchema]
+  },
+  {
+    timestamps: true
+  }
+);
+
+const User = mongoose.model("User", userSchema);
+
+export default User;

@@ -1,4 +1,4 @@
-import User from "../models/User.model";
+import User from "../models/User.model.js"; // <- .js add karo
 
 export const getProfile = async (req, res) => {
 

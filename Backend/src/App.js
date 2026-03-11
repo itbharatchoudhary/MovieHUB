@@ -10,6 +10,7 @@ const ConnectToMongoDB = require("./config/Database");
 const AuthRoutes = require("./routes/Auth.routes");
 const FavoriteRoutes = require("./routes/Favorite.routes");
 const HistoryRoutes = require("./routes/History.routes");
+import movieRoutes from "./routes/movieRoutes.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -30,5 +31,6 @@ ConnectToMongoDB();
 App.use("/api", AuthRoutes);
 App.use("/api/favorites", FavoriteRoutes);
 App.use("/api/history", HistoryRoutes);
+App.use("/api/movies", movieRoutes);
 
 module.exports = App;

@@ -1,6 +1,6 @@
 import express from "express";
 import { protect } from "../middleware/Auth.middleware.js";
-import { getProfile, addFavorite, addHistory } from "../controllers/userController.js";
+import { getProfile, addFavorite, addHistory } from "../controllers/User.Controller.js"; // <-- .js add karo    
 
 const router = express.Router();
 
