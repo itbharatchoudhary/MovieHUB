@@ -1,34 +1,31 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true
-    },
-
-    email: {
-      type: String,
-      required: true,
-      unique: true
-    },
-
-    password: {
-      type: String,
-      required: true
-    },
-
-    role: {
-      type: String,
-      default: "user"
-    },
-
-    isBanned: {
-      type: Boolean,
-      default: false
-    }
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: {
+    type: String,
+    unique: true
   },
-  { timestamps: true }
-);
+  password: String,
 
-module.exports = mongoose.model("User", userSchema);
+  favorites: [
+    {
+      movieId: Number,
+      title: String,
+      poster: String
+    }
+  ],
+
+  history: [
+    {
+      movieId: Number,
+      title: String,
+      watchedAt: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ]
+});
+
+export default mongoose.model("User", userSchema);
