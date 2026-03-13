@@ -1,7 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../MovieCard/MovieCard.scss";
 
 const MovieCard = ({ movie }) => {
+
+  const navigate = useNavigate();
+
   const image = movie?.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     : "/no-image.png";
@@ -12,8 +16,12 @@ const MovieCard = ({ movie }) => {
     ? movie.release_date.split("-")[0]
     : movie?.first_air_date?.split("-")[0];
 
+  const handleClick = () => {
+    navigate(`/movie/${movie.id}`);
+  };
+
   return (
-    <div className="movie-card">
+    <div className="movie-card" onClick={handleClick}>
       
       <div className="poster">
         <img src={image} alt={title} />
