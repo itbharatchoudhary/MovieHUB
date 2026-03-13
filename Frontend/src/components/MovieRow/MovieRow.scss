@@ -1,0 +1,44 @@
+.movie-row {
+  margin: 40px 0;
+  padding: 0 40px;
+
+  .row-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  .row-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+  }
+
+  .row-scroll {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+
+    /* Hide Scrollbar */
+    scrollbar-width: none;
+  }
+
+  .row-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* MovieCard animation */
+.movie-row .movie-card {
+  flex: 0 0 auto;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.movie-row .movie-card:hover {
+  transform: scale(1.07);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}

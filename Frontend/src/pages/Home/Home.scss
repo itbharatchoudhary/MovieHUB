@@ -1,0 +1,48 @@
+.home {
+  padding: 80px 40px;
+}
+
+.movie-row {
+  margin-bottom: 40px;
+}
+
+.row-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.row-scroll {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.movie-card {
+  min-width: 160px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.movie-card:hover {
+  transform: scale(1.08);
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.movie-info {
+  margin-top: 5px;
+}
+
+.movie-info h4 {
+  font-size: 14px;
+}
+
+.movie-info span {
+  font-size: 12px;
+  color: #f5c518;
+}
