@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./MovieDetails.scss";
 import MovieCard from "../MovieCard/MovieCard";
+import TrailerModal from "../TrailerModal/TrailerModal";
 import api from "../../Services/TMDB";
 
 const MovieDetails = ({ movieId }) => {
@@ -10,6 +11,8 @@ const MovieDetails = ({ movieId }) => {
   const [trailer, setTrailer] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [similar, setSimilar] = useState([]);
+
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
 
   useEffect(() => {
     fetchMovie();
@@ -49,7 +52,6 @@ const MovieDetails = ({ movieId }) => {
     <div className="movie-details">
 
       {/* HERO SECTION */}
-
       <div
         className="hero"
         style={{ backgroundImage: `url(${backdrop})` }}
@@ -78,6 +80,15 @@ const MovieDetails = ({ movieId }) => {
 
               <button className="btn">⭐ Rate</button>
 
+              {trailer && (
+                <button
+                  className="btn trailer-btn"
+                  onClick={() => setIsTrailerOpen(true)}
+                >
+                  ▶ Watch Trailer
+                </button>
+              )}
+
             </div>
 
           </div>
@@ -86,7 +97,6 @@ const MovieDetails = ({ movieId }) => {
       </div>
 
       {/* MOVIE INFO */}
-
       <section className="info-section">
 
         <h2>About Movie</h2>
@@ -125,7 +135,6 @@ const MovieDetails = ({ movieId }) => {
       </section>
 
       {/* CAST */}
-
       <section className="cast-section">
 
         <h2>Cast</h2>
@@ -153,30 +162,7 @@ const MovieDetails = ({ movieId }) => {
 
       </section>
 
-      {/* TRAILER */}
-
-      {trailer && (
-
-        <section className="trailer-section">
-
-          <h2>Official Trailer</h2>
-
-          <div className="trailer">
-
-            <iframe
-              src={`https://www.youtube.com/embed/${trailer}`}
-              title="Trailer"
-              allowFullScreen
-            />
-
-          </div>
-
-        </section>
-
-      )}
-
       {/* REVIEWS */}
-
       <section className="reviews-section">
 
         <h2>User Reviews</h2>
@@ -198,7 +184,6 @@ const MovieDetails = ({ movieId }) => {
       </section>
 
       {/* SIMILAR MOVIES */}
-
       <section className="similar-section">
 
         <h2>You may also like</h2>
@@ -212,6 +197,13 @@ const MovieDetails = ({ movieId }) => {
         </div>
 
       </section>
+
+      {/* TRAILER MODAL */}
+      <TrailerModal
+        trailerKey={trailer}
+        isOpen={isTrailerOpen}
+        onClose={() => setIsTrailerOpen(false)}
+      />
 
     </div>
   );

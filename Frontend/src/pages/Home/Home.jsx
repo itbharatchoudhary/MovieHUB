@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MovieRow from "../../components/MovieRow/MovieRow";
+import HeroBanner from "../../components/HeroBanner/HeroBanner";
+import Loader from "../../components/Loader/Loader";
 
 import {
   getTrendingMovies,
@@ -21,7 +23,6 @@ const Home = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        // Run all API calls in parallel (faster)
         const [
           trendingData,
           popularData,
@@ -49,15 +50,14 @@ const Home = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="home-loading">
-        <h2>Loading movies...</h2>
-      </div>
-    );
+    return <Loader text="Loading Movies..." />;
   }
 
   return (
     <div className="home">
+
+      {trending.length > 0 && <HeroBanner movies={trending.slice(0, 5)} />}
+
       <MovieRow title="🔥 Trending Movies" movies={trending} />
       <MovieRow title="🎬 Popular Movies" movies={popular} />
       <MovieRow title="⭐ Top Rated Movies" movies={topRated} />
