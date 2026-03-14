@@ -62,16 +62,18 @@ const MovieDetails = () => {
 
   const formatCurrency = (amount) => {
 
-  if (!amount) return "Not Available";
+    if (!amount) return "Not Available";
 
-  const usdToInr = 83; // approx rate
-  const inr = amount * usdToInr;
+    const usdToInr = 83; // approx rate
+    const inr = amount * usdToInr;
 
-  const crore = inr / 10000000;
+    const crore = inr / 10000000;
 
-  return `₹${crore.toFixed(2)} Cr`;
+    return `₹${crore.toFixed(2)} Cr`;
 
-};
+  };
+  
+  const languageName = new Intl.DisplayNames(["en"], { type: "language" });
 
   return (
     <div className="movie-details">
@@ -159,7 +161,11 @@ const MovieDetails = () => {
 
           <div>
             <strong>Language</strong>
-            <span>{movie.original_language}</span>
+            <span>
+              {movie?.original_language
+                ? languageName.of(movie.original_language)
+                : "Unknown"}
+            </span>
           </div>
 
           <div>

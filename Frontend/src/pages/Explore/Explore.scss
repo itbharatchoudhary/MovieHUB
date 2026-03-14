@@ -1,30 +1,51 @@
 .explore-page {
-  padding: 20px;
-  background-color: #1e1e1e; // MacOS dark background
-  color: #fff;
+  padding: 10px 20px;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  min-height: 100vh;
+}
 
+/* Movie Grid */
+.movie-grid {
+  display: grid;
+
+  /* fixed columns for better spacing */
+  grid-template-columns: repeat(auto-fill, 210px);
+
+  justify-content: center; 
+  gap: 10px;
+
+  margin-top: 10px;
+}
+
+/* remove extra spacing */
+.movie-grid > * {
+  margin: 0;
+  padding: 0;
+}
+
+/* Responsive */
+
+@media (max-width: 1200px) {
   .movie-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fill, 160px);
   }
 }
 
-// Override MovieRow for grid style in Explore
-.movie-row {
-  flex: 1 1 calc(20% - 20px);
-  min-width: 200px;
-
-  .row-scroll {
-    display: flex;
-    overflow-x: auto;
-    gap: 15px;
+@media (max-width: 768px) {
+  .explore-page {
+    padding: 15px;
   }
 
-  .row-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 10px;
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, 140px);
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 }
