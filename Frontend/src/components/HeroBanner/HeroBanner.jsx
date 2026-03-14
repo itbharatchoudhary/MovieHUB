@@ -21,7 +21,7 @@ const HeroBanner = ({ movies = [] }) => {
 
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % movies.length);
-    }, 10000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [movies]);
