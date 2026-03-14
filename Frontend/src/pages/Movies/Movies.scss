@@ -1,0 +1,38 @@
+.movies-page {
+  padding: 20px 40px;
+  background: #1e1e1e;
+  min-height: 100vh;
+  color: white;
+}
+
+/* Movie Grid */
+.movies-grid {
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 22px;
+  margin-top: 20px;
+
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+  .movies-page {
+    padding: 20px;
+  }
+
+  .movies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .movies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}

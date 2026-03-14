@@ -1,21 +1,19 @@
+
+
 .explore-page {
-  padding: 10px 20px;
-  background-color: #1e1e1e;
-  color: #ffffff;
+  padding: 20px 40px;
+  background: #1e1e1e;
   min-height: 100vh;
 }
 
-/* Movie Grid */
 .movie-grid {
+  margin-top: 20px;
+
   display: grid;
 
-  /* fixed columns for better spacing */
-  grid-template-columns: repeat(auto-fill, 210px);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 
-  justify-content: center; 
   gap: 10px;
-
-  margin-top: 10px;
 }
 
 /* remove extra spacing */
