@@ -31,7 +31,7 @@ const MovieCard = ({ movie }) => {
             <h3>{title}</h3>
 
             <div className="meta-bottom">
-              <span className="rating">⭐ {rating}</span>
+              <span className="rating"><i class="ri-star-s-fill"></i> {rating}</span>
               {year && <span className="year">{year}</span>}
             </div>
           </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MovieRow from "../../components/MovieRow/MovieRow";
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import Loader from "../../components/Loader/Loader";
+import { RiFireFill, RiClapperboardFill, RiStarFill, RiSendPlaneLine } from "react-icons/ri";
 
 import {
   getTrendingMovies,
@@ -58,10 +59,22 @@ const Home = () => {
 
       {trending.length > 0 && <HeroBanner movies={trending.slice(0, 5)} />}
 
-      <MovieRow title="🔥 Trending Movies" movies={trending} />
-      <MovieRow title="🎬 Popular Movies" movies={popular} />
-      <MovieRow title="⭐ Top Rated Movies" movies={topRated} />
-      <MovieRow title="🚀 Upcoming Movies" movies={upcoming} />
+      <MovieRow
+        title={<><RiFireFill /> Trending Movies</>}
+        movies={trending}
+      />
+      <MovieRow
+        title={<><RiClapperboardFill /> Popular Movies</>}
+        movies={popular}
+      />
+      <MovieRow
+        title={<><RiStarFill /> Top Rated Movies</>}
+        movies={topRated}
+      />
+      <MovieRow
+        title={<><RiSendPlaneLine /> Upcoming Movies</>}
+        movies={upcoming}
+      />
     </div>
   );
 };
