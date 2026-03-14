@@ -72,7 +72,7 @@ const MovieDetails = () => {
     return `₹${crore.toFixed(2)} Cr`;
 
   };
-  
+
   const languageName = new Intl.DisplayNames(["en"], { type: "language" });
 
   return (
@@ -122,7 +122,10 @@ const MovieDetails = () => {
               </div>
 
               <p className="overview">
-                {movie.overview}
+                {movie.overview
+                  ?.split(" ")
+                  .slice(0, 25)
+                  .join(" ")}...
               </p>
 
               <div className="actions">
