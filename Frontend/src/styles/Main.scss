@@ -1,7 +1,8 @@
 @use "./Variables";
+@use "./Reset";
 
 body{
-  background: var(--bg-color);
-  color: var(--text-color);
-  transition: all 0.3s ease;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
 }
