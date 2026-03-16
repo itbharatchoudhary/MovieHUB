@@ -36,7 +36,6 @@ const Navbar = () => {
         <Link to="/movies">Movies</Link>
         <Link to="/tv-shows">TV Shows</Link>
         <Link to="/kids">Kids</Link>
-        <Link to="/history">History</Link>
         <Link to="search">Search</Link>
       </div>
 
@@ -44,11 +43,13 @@ const Navbar = () => {
       <div className="nav-right">
 
         <button className="theme-btn" onClick={toggleTheme}>
-          {theme === "light" ? <i class="ri-moon-fill"></i> : <i class="ri-sun-fill"></i>}
+          {theme === "light"
+            ? <i className="ri-moon-fill"></i>
+            : <i className="ri-sun-fill"></i>}
         </button>
 
         {isLoggedIn ? (
-          <div className="profile" onClick={goToMySpace} style={{cursor: "pointer"}}>
+          <div className="profile" onClick={goToMySpace} style={{ cursor: "pointer" }}>
             <img
               src="https://i.pravatar.cc/40"
               alt="profile"
