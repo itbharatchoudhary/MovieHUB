@@ -1,0 +1,236 @@
+.myspace-page {
+    padding: 2rem;
+    font-family: "San Francisco", -apple-system, system-ui, sans-serif;
+    color: #1c1c1e;
+    background-color: #f5f5f7;
+    min-height: 100vh;
+
+    /* ================= PROFILE SECTION ================= */
+    .profile-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2.5rem;
+        transition: transform 0.3s, box-shadow 0.3s;
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .profile-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid #e0e0e0;
+                transition: transform 0.3s, box-shadow 0.3s;
+
+                &:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                }
+            }
+
+            .user-info {
+                display: flex;
+                flex-direction: column;
+
+                .user-name {
+                    font-size: 1.75rem;
+                    font-weight: 700;
+                    color: #111;
+                }
+
+                .user-email {
+                    font-size: 0.95rem;
+                    color: #6e6e73;
+                    margin-top: 0.25rem;
+                }
+            }
+        }
+
+        .profile-right {
+            .edit-btn {
+                padding: 0.6rem 1.8rem;
+                font-size: 0.95rem;
+                border-radius: 14px;
+                border: none;
+                background: #007aff;
+                color: white;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s;
+
+                &:hover {
+                    background: #005bb5;
+                    transform: scale(1.05);
+                }
+            }
+        }
+    }
+
+    /* ================= ROW HEADINGS ================= */
+    .movie-row {
+        margin-bottom: 2.5rem;
+
+        .row-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+
+            .row-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #1c1c1e;
+                border-left: 4px solid #007aff;
+                padding-left: 0.8rem;
+            }
+        }
+
+        /* HORIZONTAL SCROLL ROW */
+        .row-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+
+            /* hide scrollbar */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+
+            /* Firefox */
+            &::-webkit-scrollbar {
+                display: none;
+                /* Chrome, Safari, Opera */
+            }
+
+            /* movie cards hover effect */
+            .movie-card {
+                transition: transform 0.3s, box-shadow 0.3s;
+
+                &:hover {
+                    transform: translateY(-5px) scale(1.05);
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                }
+            }
+        }
+    }
+
+    .movie-section {
+        margin-top: 40px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+
+        h2 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+    }
+
+    .section-edit-btn {
+        background: #007aff;
+        border: none;
+        color: white;
+
+        padding: 6px 14px;
+        border-radius: 8px;
+
+        cursor: pointer;
+
+        &:hover {
+            background: #005fcc;
+        }
+    }
+
+    .row-scroll {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .movie-wrapper {
+        position: relative;
+    }
+
+    .remove-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+
+        width: 26px;
+        height: 26px;
+
+        border-radius: 50%;
+        border: none;
+
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+
+        cursor: pointer;
+        z-index: 5;
+
+        &:hover {
+            background: red;
+        }
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 1024px) {
+        .profile-section {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.5rem;
+
+            .profile-right {
+                align-self: flex-end;
+            }
+        }
+
+        .movie-row .row-scroll {
+            gap: 0.8rem;
+        }
+    }
+
+    @media (max-width: 640px) {
+        padding: 1rem;
+
+        .profile-section {
+            padding: 1.5rem;
+
+            .profile-left .profile-pic {
+                width: 80px;
+                height: 80px;
+            }
+
+            .profile-left .user-info .user-name {
+                font-size: 1.5rem;
+            }
+        }
+
+        .movie-row .row-header .row-title {
+            font-size: 1.25rem;
+        }
+    }
+}

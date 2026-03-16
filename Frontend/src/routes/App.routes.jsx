@@ -8,6 +8,7 @@ import Movies from "../pages/Movies/Movies";
 import TVShows from "../pages/TVShows/TvShows";
 import Kids from "../pages/Kids/Kids";
 import Search from "../pages/Search/Search";
+import MySpace from "../pages/MySpace/MySpace";
 
 
 // Components
@@ -19,21 +20,24 @@ const AppRoutes = () => {
     <Routes>
       {/* Home Page */}
       <Route path="/" element={<Home />} />
-      
+
       {/* Explore Page */}
       <Route path="/explore" element={<Explore />} />
 
       {/* Movies Page */}
       <Route path="/movies" element={<Movies />} />
 
-        {/* TV Shows Page */}
+      {/* TV Shows Page */}
       <Route path="/tv-shows" element={<TVShows />} />
 
-        {/* Kids Page */}
+      {/* Kids Page */}
       <Route path="/kids" element={<Kids />} />
 
       {/* Search Page */}
-  <Route path="/search" element={<Search />} />
+      <Route path="/search" element={<Search />} />
+
+      {/* Myspace Page */}
+      <Route path="/myspace" element={<MySpace />} />
 
       {/* Movie Details Page */}
       <Route path="/movie/:id" element={<MovieDetails />} />

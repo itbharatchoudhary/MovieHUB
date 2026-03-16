@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // <-- useNavigate import
 import 'remixicon/fonts/remixicon.css'
 import "./Navbar.scss";
 
 const Navbar = () => {
   const [theme, setTheme] = useState("light");
+  const navigate = useNavigate(); // <-- hook initialize
+
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -14,9 +16,13 @@ const Navbar = () => {
 
   const isLoggedIn = true; // change with auth later
 
+  const goToMySpace = () => {
+    navigate("/myspace"); // <-- exact route you defined in AppRoutes
+  };
+
   return (
     <nav className="navbar">
-      
+
       {/* LEFT LOGO */}
       <div className="nav-left">
         <Link to="/" className="logo">
@@ -42,7 +48,7 @@ const Navbar = () => {
         </button>
 
         {isLoggedIn ? (
-          <div className="profile">
+          <div className="profile" onClick={goToMySpace} style={{cursor: "pointer"}}>
             <img
               src="https://i.pravatar.cc/40"
               alt="profile"
