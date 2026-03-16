@@ -1,17 +1,15 @@
 .kids-page {
   padding: 20px 40px;
-  background: #1e1e1e;
+  background: var(--color-bg-primary);
   min-height: 100vh;
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .kids-grid {
-
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 22px;
   margin-top: 20px;
-
 }
 
 /* Responsive */

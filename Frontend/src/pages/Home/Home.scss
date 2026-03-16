@@ -1,5 +1,7 @@
 .home {
   padding: 80px 40px;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
 }
 
 .movie-row {
@@ -10,6 +12,7 @@
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 15px;
+  color: var(--color-text-primary);
 }
 
 .row-scroll {
@@ -32,6 +35,7 @@
 .movie-card img {
   width: 100%;
   border-radius: 8px;
+  border: 1px solid var(--color-border);
 }
 
 .movie-info {
@@ -40,22 +44,10 @@
 
 .movie-info h4 {
   font-size: 14px;
+  color: var(--color-text-primary);
 }
 
 .movie-info span {
   font-size: 12px;
   color: #f5c518;
-}
-
-
-[data-theme="dark"] .navbar {
-  background: rgba(20, 20, 20, 0.6);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-/* LIGHT MODE NAVBAR */
-
-[data-theme="light"] .navbar {
-  background: rgba(255,255,255,0.6);
-  border: 1px solid rgba(0,0,0,0.08);
 }
