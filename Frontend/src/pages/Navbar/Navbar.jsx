@@ -31,6 +31,7 @@ const Navbar = () => {
         <Link to="/tv-shows">TV Shows</Link>
         <Link to="/kids">Kids</Link>
         <Link to="/history">History</Link>
+        <Link to="search">Search</Link>
       </div>
 
       {/* RIGHT SIDE */}

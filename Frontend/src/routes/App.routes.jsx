@@ -7,6 +7,8 @@ import Explore from "../pages/Explore/Explore";
 import Movies from "../pages/Movies/Movies";
 import TVShows from "../pages/TVShows/TvShows";
 import Kids from "../pages/Kids/Kids";
+import Search from "../pages/Search/Search";
+
 
 // Components
 import MovieDetails from "../components/MovieDetails/MovieDetails";
@@ -29,6 +31,9 @@ const AppRoutes = () => {
 
         {/* Kids Page */}
       <Route path="/kids" element={<Kids />} />
+
+      {/* Search Page */}
+  <Route path="/search" element={<Search />} />
 
       {/* Movie Details Page */}
       <Route path="/movie/:id" element={<MovieDetails />} />
