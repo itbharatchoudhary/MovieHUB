@@ -1,118 +1,139 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./MovieDetails.scss";
+
 import MovieRow from "../MovieRow/MovieRow";
 import TrailerModal from "../TrailerModal/TrailerModal";
 import Loader from "../Loader/Loader";
+
+import CastRow from "../CastRow/CastRow";
+import CastDetail from "../CastDetails/CastDetail";
+
 import api from "../../api/TMDB";
 
 const MovieDetails = () => {
-
   const { id } = useParams();
 
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
+  const [selectedActor, setSelectedActor] = useState(null);
+
   const [trailer, setTrailer] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [similar, setSimilar] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+  const [error, setError] = useState(null); // ✅ NEW
 
   useEffect(() => {
     fetchMovie();
   }, [id]);
 
   const fetchMovie = async () => {
-
     try {
-
       setLoading(true);
+      setError(null);
 
-      const movieRes = await api.get(`/movie/${id}`);
-      const castRes = await api.get(`/movie/${id}/credits`);
-      const videoRes = await api.get(`/movie/${id}/videos`);
-      const reviewRes = await api.get(`/movie/${id}/reviews`);
-      const similarRes = await api.get(`/movie/${id}/similar`);
+      const [
+        movieRes,
+        castRes,
+        videoRes,
+        reviewRes,
+        similarRes,
+      ] = await Promise.all([
+        api.get(`/movie/${id}`),
+        api.get(`/movie/${id}/credits`),
+        api.get(`/movie/${id}/videos`),
+        api.get(`/movie/${id}/reviews`),
+        api.get(`/movie/${id}/similar`),
+      ]);
 
-      setMovie(movieRes.data);
-      setCast(castRes.data.cast.slice(0, 10));
-      setReviews(reviewRes.data.results.slice(0, 4));
-      setSimilar(similarRes.data.results.slice(0, 12));
+      setMovie(movieRes.data || null);
+      setCast(castRes.data?.cast?.slice(0, 12) || []);
+      setReviews(reviewRes.data?.results?.slice(0, 4) || []);
+      setSimilar(similarRes.data?.results?.slice(0, 12) || []);
 
-      const trailerVideo = videoRes.data.results.find(
+      const trailerVideo = videoRes.data?.results?.find(
         (v) => v.type === "Trailer"
       );
 
-      if (trailerVideo) setTrailer(trailerVideo.key);
-
-      setLoading(false);
+      setTrailer(trailerVideo?.key || null);
 
     } catch (err) {
-
       console.error(err);
+      setError("Failed to load movie data 😢");
+    } finally {
       setLoading(false);
-
     }
   };
 
+  /* ================= LOADING ================= */
   if (loading) return <Loader text="Loading Movie Details..." />;
 
-  const backdrop = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
-  const poster = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+  /* ================= ERROR ================= */
+  if (error) {
+    return (
+      <div className="movie-details">
+        <h2 style={{ textAlign: "center", padding: "100px" }}>
+          {error}
+        </h2>
+      </div>
+    );
+  }
 
-  const formatCurrency = (amount) => {
+  /* ================= SAFETY ================= */
+  if (!movie) {
+    return (
+      <div className="movie-details">
+        <h2 style={{ textAlign: "center", padding: "100px" }}>
+          No Movie Found
+        </h2>
+      </div>
+    );
+  }
 
-    if (!amount) return "Not Available";
+  /* ================= DATA ================= */
+  const backdrop = movie.backdrop_path
+    ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+    : "";
 
-    const usdToInr = 83; // approx rate
-    const inr = amount * usdToInr;
+  const poster = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : "";
 
-    const crore = inr / 10000000;
-
-    return `₹${crore.toFixed(2)} Cr`;
-
-  };
-
-  const languageName = new Intl.DisplayNames(["en"], { type: "language" });
+  const languageName = new Intl.DisplayNames(["en"], {
+    type: "language",
+  });
 
   return (
     <div className="movie-details">
 
       {/* HERO */}
-
       <div
         className="hero"
-        style={{ backgroundImage: `url(${backdrop})` }}
+        style={{ backgroundImage: backdrop ? `url(${backdrop})` : "none" }}
       >
-
         <div className="hero-overlay">
-
           <div className="hero-container">
 
-            <img
-              src={poster}
-              alt={movie.title}
-              className="poster"
-            />
+            {poster && (
+              <img src={poster} alt={movie.title} className="poster" />
+            )}
 
             <div className="hero-info">
-
               <h1 className="title">{movie.title}</h1>
 
               <div className="meta">
-
                 <span className="rating">
-                  ⭐ {movie.vote_average.toFixed(1)}
+                  ⭐ {movie.vote_average?.toFixed(1) || "N/A"}
                 </span>
 
                 <span className="dot">•</span>
-
-                <span>{movie.release_date?.split("-")[0]}</span>
+                <span>{movie.release_date?.split("-")[0] || "N/A"}</span>
 
                 <span className="dot">•</span>
-
-                <span>{movie.runtime} min</span>
-
+                <span>{movie.runtime || "N/A"} min</span>
               </div>
 
               <div className="genres">
@@ -123,160 +144,100 @@ const MovieDetails = () => {
 
               <p className="overview">
                 {movie.overview
-                  ?.split(" ")
-                  .slice(0, 25)
-                  .join(" ")}...
+                  ? movie.overview.split(" ").slice(0, 25).join(" ") + "..."
+                  : "No description available"}
               </p>
 
               <div className="actions">
+                {trailer && (
+                  <button
+                    className="btn primary"
+                    onClick={() => setIsTrailerOpen(true)}
+                  >
+                    ▶ Trailer
+                  </button>
+                )}
 
-                <button
-                  className="btn primary"
-                  onClick={() => setIsTrailerOpen(true)}
-                >
-                  ▶ Trailer
-                </button>
-
-                <button className="btn glass">
-                  + Watchlist
-                </button>
-
-                <button className="btn glass">
-                  ❤ Favourite
-                </button>
-
+                <button className="btn glass">+ Watchlist</button>
+                <button className="btn glass">❤ Favourite</button>
               </div>
-
             </div>
 
           </div>
-
         </div>
-
       </div>
+
       {/* INFO */}
-
       <section className="info-section">
-
         <h2>Movie Info</h2>
 
         <div className="info-grid">
-
           <div>
             <strong>Language</strong>
             <span>
-              {movie?.original_language
+              {movie.original_language
                 ? languageName.of(movie.original_language)
                 : "Unknown"}
             </span>
           </div>
 
           <div>
-            <strong>Budget</strong>
-            <span>{formatCurrency(movie.budget)}</span>
-          </div>
-
-          <div>
-            <strong>Revenue</strong>
-            <span>{formatCurrency(movie.revenue)}</span>
-          </div>
-
-          <div>
             <strong>Status</strong>
-            <span>{movie.status}</span>
+            <span>{movie.status || "Unknown"}</span>
           </div>
-
         </div>
-
       </section>
 
       {/* CAST */}
-
-      <section className="cast-section">
-
-        <h2>Top Cast</h2>
-
-        <div className="cast-row">
-
-          {cast.map((actor) => (
-
-            <div key={actor.id} className="actor-card">
-
-              <img
-                src={
-                  actor.profile_path
-                    ? `https://image.tmdb.org/t/p/w300${actor.profile_path}`
-                    : "/no-image.png"
-                }
-                alt={actor.name}
-              />
-
-              <h4>{actor.name}</h4>
-              <p>{actor.character}</p>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </section>
+      {cast.length > 0 && (
+        <section className="cast-section">
+          <CastRow
+            title="Top Cast"
+            cast={cast}
+            onActorClick={setSelectedActor}
+          />
+        </section>
+      )}
 
       {/* REVIEWS */}
+      {reviews.length > 0 && (
+        <section className="reviews-section">
+          <h2>User Reviews</h2>
 
-      <section className="reviews-section">
-
-        <h2>User Reviews</h2>
-
-        {reviews.length === 0 && (
-          <p className="no-review">
-            No reviews available yet.
-          </p>
-        )}
-
-        <div className="reviews-grid">
-
-          {reviews.map((review) => (
-
-            <div key={review.id} className="review-card">
-
-              <div className="review-header">
-
-                <div className="avatar">
-                  {review.author.charAt(0).toUpperCase()}
-                </div>
-
-                <div>
-                  <h4>{review.author}</h4>
-                </div>
-
+          <div className="reviews-grid">
+            {reviews.map((review) => (
+              <div key={review.id} className="review-card">
+                <h4>{review.author}</h4>
+                <p>{review.content.slice(0, 200)}...</p>
               </div>
+            ))}
+          </div>
+        </section>
+      )}
 
-              <p>
-                {review.content.slice(0, 250)}...
-              </p>
+      {/* SIMILAR */}
+      {similar.length > 0 && (
+        <MovieRow title="You May Also Like" movies={similar} />
+      )}
 
-            </div>
-
-          ))}
-
-        </div>
-
-      </section>
-
-      {/* SIMILAR MOVIES */}
-
-      <MovieRow
-        title="You May Also Like"
-        movies={similar}
-      />
-
+      {/* TRAILER */}
       <TrailerModal
         trailerKey={trailer}
         isOpen={isTrailerOpen}
         onClose={() => setIsTrailerOpen(false)}
       />
 
+      {/* CAST MODAL */}
+      {selectedActor && (
+        <div
+          className="cast-modal"
+          onClick={() => setSelectedActor(null)}
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <CastDetail actor={selectedActor} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
