@@ -3,6 +3,18 @@
   color: var(--color-text-primary);
   font-family: "Inter", sans-serif;
 
+  /* ================= COMMON ================= */
+  .section {
+    padding: 80px 60px;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+  }
+
   /* ================= HERO ================= */
   .hero {
     height: 100vh;
@@ -46,7 +58,7 @@
     width: 260px;
     border-radius: 18px;
 
-    box-shadow: 
+    box-shadow:
       0 30px 80px rgba(0, 0, 0, 0.8),
       0 0 30px rgba(255, 255, 255, 0.05);
 
@@ -77,11 +89,6 @@
     margin-bottom: 12px;
   }
 
-  .rating {
-    color: #ffd60a;
-    font-weight: 600;
-  }
-
   .dot {
     opacity: 0.4;
   }
@@ -92,21 +99,19 @@
     gap: 10px;
     margin-bottom: 15px;
     flex-wrap: wrap;
-  }
 
-  .genres span {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 6px 12px;
-    border-radius: 999px;
+    span {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 12px;
+      border-radius: 999px;
+      backdrop-filter: blur(12px);
+      font-size: 0.8rem;
+      transition: 0.3s;
 
-    backdrop-filter: blur(12px);
-
-    font-size: 0.8rem;
-    transition: 0.3s;
-  }
-
-  .genres span:hover {
-    background: rgba(255, 255, 255, 0.2);
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
   }
 
   /* ================= OVERVIEW ================= */
@@ -121,6 +126,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
+    flex-wrap: wrap;
   }
 
   .btn {
@@ -137,27 +143,25 @@
     display: flex;
     align-items: center;
     gap: 6px;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
   }
 
   .btn.primary {
     background: linear-gradient(135deg, #ff3b30, #ff6b60);
     color: white;
-
     box-shadow: 0 10px 25px rgba(255, 59, 48, 0.4);
   }
 
   .btn.glass {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(15px);
-    color: var(--color-text-primary);
   }
 
-  .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-  }
-
-  /* ================= INFO SECTION ================= */
+  /* ================= INFO ================= */
   .info-section {
     padding: 80px 60px;
   }
@@ -167,53 +171,38 @@
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 22px;
     margin-top: 30px;
+
+    div {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 22px;
+      border-radius: 16px;
+
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+
+      transition: 0.3s;
+
+      &:hover {
+        transform: translateY(-6px);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      strong {
+        display: block;
+        margin-bottom: 6px;
+        opacity: 0.6;
+        font-size: 0.8rem;
+      }
+    }
   }
 
-  .info-grid div {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 22px;
-    border-radius: 16px;
-
-    backdrop-filter: blur(15px);
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
-
-    transition: 0.3s;
-  }
-
-  .info-grid div:hover {
-    transform: translateY(-6px);
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  .info-grid strong {
-    display: block;
-    margin-bottom: 6px;
-    opacity: 0.6;
-    font-size: 0.8rem;
-  }
-
-  /* ================= CAST ================= */
+  /* ================= CAST SECTION ================= */
   .cast-section {
     padding: 80px 60px;
   }
 
-  .cast-row {
-    display: flex;
-    gap: 25px;
-    overflow-x: auto;
-    padding-bottom: 12px;
-    scroll-behavior: smooth;
-  }
-
-  /* Smooth scroll snap */
-  .cast-row {
-    scroll-snap-type: x mandatory;
-  }
-
-  .cast-row > * {
-    scroll-snap-align: start;
-  }
+  /* ❌ REMOVE old .cast-row styling (conflict fix)
+     👉 CastRow.scss will handle it fully */
 
   /* ================= REVIEWS ================= */
   .reviews-section {
@@ -233,50 +222,17 @@
     border-radius: 16px;
 
     backdrop-filter: blur(15px);
-
     transition: 0.3s;
-  }
 
-  .review-card:hover {
-    transform: translateY(-6px);
-    background: rgba(255, 255, 255, 0.08);
-  }
+    &:hover {
+      transform: translateY(-6px);
+      background: rgba(255, 255, 255, 0.08);
+    }
 
-  .review-header {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-
-  .avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-
-    background: linear-gradient(135deg, #ff3b30, #ff6b60);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-
-    box-shadow: 0 5px 15px rgba(255, 59, 48, 0.5);
-  }
-
-  .review-card p {
-    font-size: 0.9rem;
-    opacity: 0.85;
-  }
-
-  /* ================= SCROLLBAR ================= */
-  .cast-row::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  .cast-row::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
   }
 
   /* ================= MODAL ================= */
@@ -297,8 +253,55 @@
     animation: fadeIn 0.3s ease;
   }
 
+  .cast-modal__content {
+    max-width: 900px;
+    width: 100%;
+  }
+
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+  }
+
+  /* ================= SCROLLBAR ================= */
+  ::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+  }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 768px) {
+    .hero {
+      height: auto;
+    }
+
+    .hero-overlay {
+      width: 100%;
+    }
+
+    .hero-container {
+      flex-direction: column;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .poster {
+      width: 200px;
+    }
+
+    .title {
+      font-size: 2rem;
+    }
+
+    .section,
+    .info-section,
+    .cast-section,
+    .reviews-section {
+      padding: 50px 20px;
+    }
   }
 }

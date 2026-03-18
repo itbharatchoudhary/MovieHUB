@@ -1,58 +1,87 @@
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
+import PropTypes from "prop-types";
+
 import CastCard from "../CastCard/CastCard";
 import "./CastRow.scss";
 
-const CastRow = ({ title, cast, onActorClick }) => {
-  const rowRef = useRef();
+const SCROLL_AMOUNT = 320;
 
-  const scroll = (direction) => {
-    const { current } = rowRef;
-    const scrollAmount = 300;
+const CastRow = ({ title, cast = [], onActorClick }) => {
+  const rowRef = useRef(null);
 
-    if (direction === "left") {
-      current.scrollLeft -= scrollAmount;
-    } else {
-      current.scrollLeft += scrollAmount;
-    }
-  };
+  // Smooth Scroll Handler
+  const handleScroll = useCallback((direction) => {
+    const container = rowRef.current;
+    if (!container) return;
+
+    const scrollValue =
+      direction === "left" ? -SCROLL_AMOUNT : SCROLL_AMOUNT;
+
+    container.scrollBy({
+      left: scrollValue,
+      behavior: "smooth",
+    });
+  }, []);
 
   return (
-    <div className="cast-row">
-
+    <section className="cast-row">
+      
       {/* HEADER */}
-      <div className="cast-row__header">
-        <h2>{title}</h2>
-      </div>
+      {title && (
+        <div className="cast-row__header">
+          <h2 className="cast-row__title">{title}</h2>
+        </div>
+      )}
 
       {/* LEFT BUTTON */}
       <button
+        type="button"
         className="cast-row__btn cast-row__btn--left"
-        onClick={() => scroll("left")}
+        aria-label="Scroll left"
+        onClick={() => handleScroll("left")}
       >
         ‹
       </button>
 
       {/* RIGHT BUTTON */}
       <button
+        type="button"
         className="cast-row__btn cast-row__btn--right"
-        onClick={() => scroll("right")}
+        aria-label="Scroll right"
+        onClick={() => handleScroll("right")}
       >
         ›
       </button>
 
       {/* SCROLL CONTAINER */}
-      <div className="cast-row__container" ref={rowRef}>
-        {cast.map((actor) => (
-          <CastCard
-            key={actor.id}
-            actor={actor}
-            onClick={() => onActorClick(actor)}   // 🔥 FIX
-          />
-        ))}
+      <div
+        className="cast-row__container"
+        ref={rowRef}
+        role="list"
+      >
+        {cast.length > 0 ? (
+          cast.map((actor) => (
+            <CastCard
+              key={actor.id}
+              actor={actor}
+              onClick={() => onActorClick?.(actor)}
+            />
+          ))
+        ) : (
+          <p className="cast-row__empty">No cast available</p>
+        )}
       </div>
-
-    </div>
+    </section>
   );
+};
+
+/* =============================
+   PROP VALIDATION
+============================= */
+CastRow.propTypes = {
+  title: PropTypes.string,
+  cast: PropTypes.arrayOf(PropTypes.object),
+  onActorClick: PropTypes.func,
 };
 
 export default CastRow;
