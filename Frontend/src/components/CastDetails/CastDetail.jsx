@@ -1,44 +1,85 @@
+import { useEffect, useState } from "react";
 import "./CastDetail.scss";
+import api from "../../api/TMDB";
+import Loader from "../Loader/Loader";
 
-const CastDetail = ({ actor }) => {
-  const imageUrl = actor.profile_path
-    ? `https://image.tmdb.org/t/p/w500${actor.profile_path}`
-    : "https://via.placeholder.com/500x750?text=No+Image";
+const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
+
+const CastDetail = ({ actor, onClose }) => {
+  const [details, setDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!actor?.id) return;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const res = await api.get(`/person/${actor.id}`);
+        setDetails(res.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [actor]);
+
+  if (loading) return <Loader />;
+  if (!details) return null;
+
+  const bgImage = details.profile_path
+    ? `${IMAGE_BASE}${details.profile_path}`
+    : "";
+
+  // ✅ 25 WORD LIMIT
+  const shortBio = details.biography
+    ? details.biography.split(" ").slice(0, 100).join(" ") + "..."
+    : "No biography available.";
 
   return (
     <div className="cast-detail">
       
-      {/* Background Blur */}
-      <div 
+      {/* BACKGROUND */}
+      <div
         className="cast-detail__bg"
-        style={{
-          backgroundImage: `url(${imageUrl})`
-        }}
-      ></div>
+        style={{ backgroundImage: `url(${bgImage})` }}
+      />
 
-      <div className="cast-detail__container">
-        
-        {/* LEFT IMAGE */}
-        <div className="cast-detail__image">
-          <img src={imageUrl} alt={actor.name} />
+      {/* CLOSE */}
+      <button className="cast-detail__close" onClick={onClose}>
+        ✕
+      </button>
+
+      {/* CONTENT */}
+      <div className="cast-detail__content">
+
+        {/* IMAGE */}
+        <div className="cast-detail__left">
+          <img
+            src={bgImage}
+            alt={details.name}
+            className="cast-detail__image"
+          />
         </div>
 
-        {/* RIGHT INFO */}
-        <div className="cast-detail__info">
-          <h1 className="cast-detail__name">{actor.name}</h1>
+        {/* INFO */}
+        <div className="cast-detail__right">
+          <h1>{details.name}</h1>
 
-          <p className="cast-detail__character">
-            {actor.character}
+          <p className="known">
+            {details.known_for_department}
           </p>
 
-          <div className="cast-detail__meta">
-            <span>Popularity: {actor.popularity}</span>
-            <span>Known For: {actor.known_for_department}</span>
+          <div className="meta">
+            <span>🎂 {details.birthday || "N/A"}</span>
+            <span>📍 {details.place_of_birth || "Unknown"}</span>
           </div>
 
-          <p className="cast-detail__bio">
-            {actor.biography || "No biography available."}
-          </p>
+          <p className="bio">{shortBio}</p>
         </div>
 
       </div>

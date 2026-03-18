@@ -1,19 +1,8 @@
 .movie-details {
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  font-family: "Inter", sans-serif;
-
-  /* ================= COMMON ================= */
-  .section {
-    padding: 80px 60px;
-  }
-
-  .center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 60vh;
-  }
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI",
+    Roboto, sans-serif;
+  color: #fff;
+  background: #0f0f0f;
 
   /* ================= HERO ================= */
   .hero {
@@ -32,30 +21,28 @@
 
   .hero-overlay {
     height: 100%;
-    width: 75%;
+    width: 100vw;
     display: flex;
     align-items: center;
 
-    background: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.96),
-      rgba(0, 0, 0, 0.85),
-      rgba(0, 0, 0, 0.4),
-      transparent
-    );
+    background: linear-gradient(to right,
+        rgba(0, 0, 0, 0.96),
+        rgba(0, 0, 0, 0.85),
+        rgba(0, 0, 0, 0.4),
+        transparent);
   }
 
   .hero-container {
     display: flex;
     align-items: center;
-    gap: 50px;
-    padding: 60px;
-    max-width: 1200px;
+    gap: 60px;
+    // padding: 60px;
+    // max-width: 1200px;
   }
 
   /* ================= POSTER ================= */
   .poster {
-    width: 260px;
+    width: 270px;
     border-radius: 18px;
 
     box-shadow:
@@ -163,130 +150,113 @@
 
   /* ================= INFO ================= */
   .info-section {
-    padding: 80px 60px;
+    padding: 60px 80px;
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
   }
 
   .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 22px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
 
     div {
       background: rgba(255, 255, 255, 0.05);
-      padding: 22px;
+      padding: 16px;
       border-radius: 16px;
-
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-
-      transition: 0.3s;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
 
       &:hover {
-        transform: translateY(-6px);
+        transform: translateY(-5px);
         background: rgba(255, 255, 255, 0.08);
       }
 
       strong {
         display: block;
-        margin-bottom: 6px;
-        opacity: 0.6;
         font-size: 0.8rem;
+        color: #aaa;
+        margin-bottom: 6px;
+      }
+
+      span {
+        font-size: 0.95rem;
+        color: #fff;
+      }
+
+      a {
+        color: #4da6ff;
+        text-decoration: none;
+        margin-right: 8px;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
 
-  /* ================= CAST SECTION ================= */
-  .cast-section {
-    padding: 80px 60px;
-  }
+  /* ================= SECTIONS ================= */
+  .section {
+    padding: 40px 80px;
 
-  /* ❌ REMOVE old .cast-row styling (conflict fix)
-     👉 CastRow.scss will handle it fully */
+    h2 {
+      margin-bottom: 20px;
+    }
+  }
 
   /* ================= REVIEWS ================= */
-  .reviews-section {
-    padding: 80px 60px;
-  }
-
   .reviews-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-top: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
   }
 
   .review-card {
     background: rgba(255, 255, 255, 0.05);
-    padding: 22px;
+    padding: 16px;
     border-radius: 16px;
+    backdrop-filter: blur(10px);
 
-    backdrop-filter: blur(15px);
-    transition: 0.3s;
-
-    &:hover {
-      transform: translateY(-6px);
-      background: rgba(255, 255, 255, 0.08);
+    h4 {
+      margin-bottom: 10px;
     }
 
     p {
       font-size: 0.9rem;
-      opacity: 0.85;
+      color: #ccc;
     }
   }
 
-  /* ================= MODAL ================= */
+  /* ================= CAST MODAL ================= */
   .cast-modal {
     position: fixed;
     inset: 0;
-
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(25px);
-
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
     display: flex;
-    align-items: center;
     justify-content: center;
-
+    align-items: center;
     z-index: 999;
-    padding: 20px;
 
-    animation: fadeIn 0.3s ease;
-  }
-
-  .cast-modal__content {
-    max-width: 900px;
-    width: 100%;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* ================= SCROLLBAR ================= */
-  ::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    &__content {
+      background: rgba(20, 20, 20, 0.9);
+      padding: 20px;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90%;
+    }
   }
 
   /* ================= RESPONSIVE ================= */
   @media (max-width: 768px) {
-    .hero {
-      height: auto;
-    }
-
-    .hero-overlay {
-      width: 100%;
-    }
-
     .hero-container {
       flex-direction: column;
       text-align: center;
-      padding: 30px;
+      padding: 20px;
     }
 
     .poster {
@@ -297,11 +267,9 @@
       font-size: 2rem;
     }
 
-    .section,
     .info-section,
-    .cast-section,
-    .reviews-section {
-      padding: 50px 20px;
+    .section {
+      padding: 30px 20px;
     }
   }
 }

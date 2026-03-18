@@ -1,113 +1,63 @@
 .cast-row {
-  position: relative;
   margin: 40px 0;
+  padding: 0 40px;
 
   /* ================= HEADER ================= */
-  &__header {
-    margin-bottom: 15px;
-
-    h2 {
-      font-size: 22px;
-      font-weight: 600;
-      color: #fff;
-
-      letter-spacing: 0.5px;
-    }
-  }
-
-  /* ================= SCROLL CONTAINER ================= */
-  &__container {
-    display: flex;
-    gap: 16px;
-
-    overflow-x: auto;
-    scroll-behavior: smooth;
-
-    padding: 10px 5px;
-
-    /* Hide scrollbar (MacOS style) */
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  /* ================= BUTTONS ================= */
-  &__btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-
-    width: 40px;
-    height: 40px;
-
-    border-radius: 50%;
-    border: none;
-
-    cursor: pointer;
-    z-index: 5;
-
-    /* Glass effect */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-
-    color: #fff;
-    font-size: 24px;
-
+  .row-header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
 
-    transition: all 0.3s ease;
-
-    opacity: 0;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-50%) scale(1.1);
-    }
+    color: var(--color-text-primary);
   }
 
-  /* Show buttons on hover */
-  &:hover &__btn {
-    opacity: 1;
+  .row-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    color: var(--color-text-primary);
   }
 
-  &__btn--left {
-    left: -10px;
+  /* ================= SCROLL ================= */
+  .row-scroll {
+    display: flex;
+    gap: 18px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
   }
 
-  &__btn--right {
-    right: -10px;
+  .row-scroll::-webkit-scrollbar {
+    display: none;
   }
 
-  /* ================= GRADIENT FADE (Netflix effect) ================= */
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    width: 60px;
-    height: 100%;
-
-    z-index: 2;
-    pointer-events: none;
+  /* ================= EMPTY ================= */
+  .cast-empty {
+    color: var(--color-text-secondary);
+    padding: 10px;
   }
+}
 
-  &::before {
-    left: 0;
-    background: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.8),
-      transparent
-    );
-  }
+/* ================= CARD EFFECT ================= */
+.cast-row .cast-card {
+  flex: 0 0 auto;
 
-  &::after {
-    right: 0;
-    background: linear-gradient(
-      to left,
-      rgba(0, 0, 0, 0.8),
-      transparent
-    );
-  }
+  background-color: var(--movie-card-bg);
+  border-radius: 10px;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  box-shadow: 0 5px 15px var(--movie-card-shadow);
+  overflow: hidden;
+}
+
+.cast-row .cast-card:hover {
+  transform: scale(1.07);
+  box-shadow: 0 10px 30px var(--movie-card-shadow);
 }

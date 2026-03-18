@@ -10,25 +10,17 @@ import CastDetail from "../CastDetails/CastDetail";
 
 import api from "../../api/TMDB";
 
-/* =============================
-   CONSTANTS
-============================= */
 const IMAGE_BASE = "https://image.tmdb.org/t/p";
 
-/* =============================
-   COMPONENT
-============================= */
 const MovieDetails = () => {
   const { id } = useParams();
 
-  /* =============================
-     STATE
-  ============================= */
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [similar, setSimilar] = useState([]);
   const [trailer, setTrailer] = useState(null);
+  const [watchProviders, setWatchProviders] = useState(null);
 
   const [selectedActor, setSelectedActor] = useState(null);
 
@@ -36,9 +28,7 @@ const MovieDetails = () => {
   const [error, setError] = useState(null);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
 
-  /* =============================
-     FETCH DATA
-  ============================= */
+  /* ================= FETCH ================= */
   useEffect(() => {
     if (!id) return;
 
@@ -53,26 +43,23 @@ const MovieDetails = () => {
           videoRes,
           reviewRes,
           similarRes,
+          providerRes,
         ] = await Promise.all([
           api.get(`/movie/${id}`),
           api.get(`/movie/${id}/credits`),
           api.get(`/movie/${id}/videos`),
           api.get(`/movie/${id}/reviews`),
           api.get(`/movie/${id}/similar`),
+          api.get(`/movie/${id}/watch/providers`), // ✅ NEW
         ]);
 
-        const movieData = movieRes.data;
-        const castData = castRes.data?.cast || [];
-        const videos = videoRes.data?.results || [];
-        const reviewsData = reviewRes.data?.results || [];
-        const similarData = similarRes.data?.results || [];
+        setMovie(movieRes.data || null);
+        setCast(castRes.data?.cast?.slice(0, 12) || []);
+        setReviews(reviewRes.data?.results?.slice(0, 4) || []);
+        setSimilar(similarRes.data?.results?.slice(0, 12) || []);
+        setWatchProviders(providerRes.data || null); // ✅ NEW
 
-        setMovie(movieData || null);
-        setCast(castData.slice(0, 12));
-        setReviews(reviewsData.slice(0, 4));
-        setSimilar(similarData.slice(0, 12));
-
-        const trailerVideo = videos.find(
+        const trailerVideo = videoRes.data?.results?.find(
           (v) => v.type === "Trailer" && v.site === "YouTube"
         );
 
@@ -89,9 +76,7 @@ const MovieDetails = () => {
     fetchMovie();
   }, [id]);
 
-  /* =============================
-     MEMOIZED DATA
-  ============================= */
+  /* ================= MEMO ================= */
   const backdrop = useMemo(
     () =>
       movie?.backdrop_path
@@ -110,15 +95,33 @@ const MovieDetails = () => {
 
   const languageName = useMemo(
     () =>
-      new Intl.DisplayNames(["en"], {
-        type: "language",
-      }),
+      new Intl.DisplayNames(["en"], { type: "language" }),
     []
   );
 
-  /* =============================
-     STATES UI
-  ============================= */
+  /* ✅ Providers (India priority) */
+  const providers = useMemo(() => {
+    const region =
+      watchProviders?.results?.IN ||
+      watchProviders?.results?.US;
+
+    return (
+      region?.flatrate ||
+      region?.rent ||
+      region?.buy ||
+      []
+    );
+  }, [watchProviders]);
+
+  const providerLink = useMemo(() => {
+    return (
+      watchProviders?.results?.IN?.link ||
+      watchProviders?.results?.US?.link ||
+      "#"
+    );
+  }, [watchProviders]);
+
+  /* ================= UI ================= */
   if (loading) return <Loader text="Loading Movie..." />;
 
   if (error) {
@@ -137,12 +140,10 @@ const MovieDetails = () => {
     );
   }
 
-  /* =============================
-     RENDER
-  ============================= */
   return (
     <div className="movie-details">
 
+      {/* HERO */}
       {/* ================= HERO ================= */}
       <div
         className="hero"
@@ -203,7 +204,7 @@ const MovieDetails = () => {
         </div>
       </div>
 
-      {/* ================= INFO ================= */}
+      {/* INFO */}
       <section className="info-section">
         <h2>Movie Info</h2>
 
@@ -221,10 +222,50 @@ const MovieDetails = () => {
             <strong>Status</strong>
             <span>{movie.status || "Unknown"}</span>
           </div>
+
+          <div>
+            <strong>Budget</strong>
+            <span>
+              {movie.budget
+                ? `$${movie.budget.toLocaleString()}`
+                : "Not Available"}
+            </span>
+          </div>
+
+          <div>
+            <strong>Revenue</strong>
+            <span>
+              {movie.revenue
+                ? `$${movie.revenue.toLocaleString()}`
+                : "Not Available"}
+            </span>
+          </div>
+
+          {/* ✅ FINAL FIXED PART */}
+          <div>
+            <strong>Available On</strong>
+            <span>
+              {providers.length > 0 ? (
+                providers.map((p) => (
+                  <a
+                    key={p.provider_id}
+                    href={providerLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ marginRight: "10px" }}
+                  >
+                    {p.provider_name}
+                  </a>
+                ))
+              ) : (
+                "Not Available"
+              )}
+            </span>
+          </div>
         </div>
       </section>
 
-      {/* ================= CAST ================= */}
+      {/* CAST */}
       {cast.length > 0 && (
         <section className="section">
           <CastRow
@@ -235,47 +276,29 @@ const MovieDetails = () => {
         </section>
       )}
 
-      {/* ================= REVIEWS ================= */}
-      {reviews.length > 0 && (
-        <section className="section">
-          <h2>User Reviews</h2>
-
-          <div className="reviews-grid">
-            {reviews.map((review) => (
-              <div key={review.id} className="review-card">
-                <h4>{review.author}</h4>
-                <p>{review.content.slice(0, 180)}...</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* ================= SIMILAR ================= */}
+      {/* SIMILAR */}
       {similar.length > 0 && (
         <section className="section">
           <MovieRow title="You May Also Like" movies={similar} />
         </section>
       )}
 
-      {/* ================= TRAILER ================= */}
       <TrailerModal
         trailerKey={trailer}
         isOpen={isTrailerOpen}
         onClose={() => setIsTrailerOpen(false)}
       />
 
-      {/* ================= CAST MODAL ================= */}
       {selectedActor && (
-        <div
-          className="cast-modal"
-          onClick={() => setSelectedActor(null)}
-        >
+        <div className="cast-modal" onClick={() => setSelectedActor(null)}>
           <div
             className="cast-modal__content"
             onClick={(e) => e.stopPropagation()}
           >
-            <CastDetail actor={selectedActor} />
+            <CastDetail
+              actor={selectedActor}
+              onClose={() => setSelectedActor(null)}
+            />
           </div>
         </div>
       )}
