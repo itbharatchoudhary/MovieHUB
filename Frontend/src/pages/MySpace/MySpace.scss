@@ -1,8 +1,12 @@
+/* ============================= */
+/*         MYSPACE PAGE SCSS      */
+/* ============================= */
+
 .myspace-page {
     padding: 2rem;
     font-family: "San Francisco", -apple-system, system-ui, sans-serif;
-    color: #1c1c1e;
-    background-color: #f5f5f7;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
     min-height: 100vh;
 
     /* ================= PROFILE SECTION ================= */
@@ -11,15 +15,15 @@
         justify-content: space-between;
         align-items: center;
         padding: 2rem;
-        background: #ffffff;
+        background: var(--color-bg-primary);
         border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 10px 30px var(--color-border);
         margin-bottom: 2.5rem;
         transition: transform 0.3s, box-shadow 0.3s;
 
         &:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 15px 35px var(--color-border);
         }
 
         .profile-left {
@@ -32,12 +36,12 @@
                 height: 100px;
                 border-radius: 50%;
                 object-fit: cover;
-                border: 3px solid #e0e0e0;
+                border: 3px solid var(--color-border);
                 transition: transform 0.3s, box-shadow 0.3s;
 
                 &:hover {
                     transform: scale(1.05);
-                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                    box-shadow: 0 5px 15px var(--color-border);
                 }
             }
 
@@ -48,12 +52,12 @@
                 .user-name {
                     font-size: 1.75rem;
                     font-weight: 700;
-                    color: #111;
+                    color: var(--color-text-primary);
                 }
 
                 .user-email {
                     font-size: 0.95rem;
-                    color: #6e6e73;
+                    color: var(--color-text-secondary);
                     margin-top: 0.25rem;
                 }
             }
@@ -65,14 +69,14 @@
                 font-size: 0.95rem;
                 border-radius: 14px;
                 border: none;
-                background: #007aff;
+                background: var(--btn-primary-bg, #007bff);
                 color: white;
                 cursor: pointer;
                 font-weight: 600;
                 transition: all 0.3s;
 
                 &:hover {
-                    background: #005bb5;
+                    background: var(--btn-primary-hover, #0056b3);
                     transform: scale(1.05);
                 }
             }
@@ -91,37 +95,31 @@
             .row-title {
                 font-size: 1.5rem;
                 font-weight: 600;
-                color: #1c1c1e;
-                border-left: 4px solid #007aff;
+                color: var(--color-text-primary);
+                border-left: 4px solid var(--btn-primary-bg, #007bff);
                 padding-left: 0.8rem;
             }
         }
 
-        /* HORIZONTAL SCROLL ROW */
         .row-scroll {
             display: flex;
             gap: 1rem;
             overflow-x: auto;
             padding-bottom: 0.5rem;
 
-            /* hide scrollbar */
             -ms-overflow-style: none;
-            /* IE and Edge */
             scrollbar-width: none;
 
-            /* Firefox */
             &::-webkit-scrollbar {
                 display: none;
-                /* Chrome, Safari, Opera */
             }
 
-            /* movie cards hover effect */
             .movie-card {
                 transition: transform 0.3s, box-shadow 0.3s;
 
                 &:hover {
                     transform: translateY(-5px) scale(1.05);
-                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                    box-shadow: 0 10px 25px var(--color-border);
                 }
             }
         }
@@ -140,33 +138,20 @@
         h2 {
             font-size: 22px;
             font-weight: 600;
+            color: var(--color-text-primary);
         }
     }
 
     .section-edit-btn {
-        background: #007aff;
+        background: var(--btn-primary-bg, #007bff);
         border: none;
         color: white;
-
         padding: 6px 14px;
         border-radius: 8px;
-
         cursor: pointer;
 
         &:hover {
-            background: #005fcc;
-        }
-    }
-
-    .row-scroll {
-        display: flex;
-        gap: 16px;
-        overflow-x: auto;
-
-        scrollbar-width: none;
-
-        &::-webkit-scrollbar {
-            display: none;
+            background: var(--btn-primary-hover, #0056b3);
         }
     }
 
@@ -178,16 +163,12 @@
         position: absolute;
         top: 8px;
         right: 8px;
-
         width: 26px;
         height: 26px;
-
         border-radius: 50%;
         border: none;
-
         background: rgba(0, 0, 0, 0.8);
         color: white;
-
         cursor: pointer;
         z-index: 5;
 
@@ -231,6 +212,37 @@
 
         .movie-row .row-header .row-title {
             font-size: 1.25rem;
+        }
+    }
+}
+
+/* ============================= */
+/*        DARK THEME OVERRIDE     */
+/* ============================= */
+[data-theme="dark"] {
+    .myspace-page {
+        color: var(--color-text-primary);
+        background-color: var(--color-bg-secondary);
+
+        .profile-section {
+            background: var(--color-bg-primary);
+            box-shadow: 0 10px 30px var(--color-border);
+
+            .profile-left .user-info .user-name {
+                color: var(--color-text-primary);
+            }
+
+            .profile-left .user-info .user-email {
+                color: var(--color-text-secondary);
+            }
+        }
+
+        .row-title {
+            border-left-color: var(--btn-primary-bg, #007bff);
+        }
+
+        .section-header h2 {
+            color: var(--color-text-primary);
         }
     }
 }

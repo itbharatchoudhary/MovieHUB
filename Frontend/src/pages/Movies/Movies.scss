@@ -1,24 +1,37 @@
+/* ============================= */
+/*         MOVIES PAGE SCSS      */
+/* ============================= */
+
 .movies-page {
   padding: 20px 40px;
-  background: #1e1e1e;
   min-height: 100vh;
-  color: white;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Movie Grid */
 .movies-grid {
-
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 22px;
   margin-top: 20px;
+}
 
+/* Movie Card Example (Optional) */
+.movie-card {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--color-text-primary);
+  backdrop-filter: var(--blur-glass);
+  transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
 }
 
 /* Responsive */
 
 @media (max-width: 900px) {
-
   .movies-page {
     padding: 20px;
   }
@@ -26,13 +39,10 @@
   .movies-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
-
 }
 
 @media (max-width: 500px) {
-
   .movies-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
 }
