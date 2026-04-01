@@ -3,7 +3,7 @@ import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import Loader from "../../components/Loader/Loader";
 import api from "../../api/TMDB";
-import "./Kids.scss";
+import "./kids.scss";
 
 const Kids = () => {
 
